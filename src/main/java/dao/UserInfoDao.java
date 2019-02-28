@@ -1,5 +1,6 @@
 package dao;
 
+import entity.User;
 import entity.UserInfo;
 
 import java.util.List;
@@ -9,6 +10,11 @@ import java.util.List;
  */
 public interface UserInfoDao {
     //查询
+
+    int Login(User user);
+
+    int addT(User user);
+
     List<UserInfo> selectAll();
 
 

@@ -1,27 +1,71 @@
 $(function () {
 
+
+
     var color
     var color1
     var str
+    var userid
+/*    setInterval()*/
 
-    function ajax_zhuce() {
-        alert($("#name").val())
+    /*function ajax_yanzheng() {
         $.ajax({
             "url": "us?type=add",
             "type": "Post",
             "data": {
                 name: $("#name").val(),
                 pass: $("#pass").val(),
-                img: $("#photo").val()
+            },
+            "dataType": "text",
+            success: list2
+        })
+    }*/
+
+    function ajax_zhuce() {
+        $.ajax({
+            "url": "us?type=add",
+            "type": "Post",
+            "data": {
+                name: $("#name").val(),
+                pass: $("#pass").val(),
             },
             "dataType": "text",
             success: list2
         })
         function list2(data){
-            alert(data)
+            if (data=="true"){
+               alert("注册成功")
+            }
         }
     }
 
+    function ajax_denglu() {
+         $.ajax({
+             "url": "us?type=Log",
+             "type": "Post",
+             "data": {
+                 name: $("#name").val(),
+                 pass: $("#pass").val(),
+             },
+             "dataType": "text",
+             success: function (data) {
+                 if (data!="0"){
+                     alert("登陆成功")
+                     userid=data
+                     $(".f").hide(200)
+                     $("html,body").animate({
+                         scrollTop:"950px"
+                     },600)}
+                 else {
+                     alert("登录失败")
+                 }
+             }
+         })
+    }
+
+    /*$(".user").blur(function () {
+        ajax_yanzheng()
+    })*/
 
     $("#zhuce").click(function () {
         if ($("#zhuce").val()=="注册"){
@@ -29,16 +73,21 @@ $(function () {
             $("#zhuce").val("保存")
         }
         else if ($("#zhuce").val()=="保存"){
-            $(".none").hide(100)
-            ajax_zhuce()
-            $("#zhuce").val("注册")
+            if ($("#repass").val()==($("#pass").val())){
+                ajax_zhuce()
+                $("#zhuce").val("注册")
+                $(".none").hide(100)
+            }else {
+                alert("请再次确认密码")
+            }
+
+
         }
     })
 
     $(window).scroll(function() {
         $(".slideanim").each(function(){
             var pos = $(this).offset().top;
-
             var winTop = $(window).scrollTop();
             if (pos < winTop + 600) {
                 $(this).addClass("slide");
@@ -47,10 +96,7 @@ $(function () {
     });
 
     $("#denglu").click(function () {
-        $(".f").hide(200)
-        $("html,body").animate({
-            scrollTop:"950px"
-        },600)
+        ajax_denglu()
     })
 
     $("#Login").click(function () {
@@ -84,6 +130,7 @@ $(function () {
     })
 
     $(".start").click(function () {
+        alert(userid)
         if($(this).val()=="出发地"){
             $(this).fadeOut(250)
             setTimeout(function () {

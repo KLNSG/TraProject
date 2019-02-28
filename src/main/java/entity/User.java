@@ -43,6 +43,9 @@ public class User implements Serializable{
         this.userimage = userimage;
     }
 
+    public User() {
+    }
+
     public User(Integer userid, String username, String userpwd, String userimage) {
         this.userid = userid;
         this.username = username;

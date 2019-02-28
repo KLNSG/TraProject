@@ -108,12 +108,12 @@
                 </tr>
                 <tr class="none">
                     <td><h1>确认密码:</h1></td>
-                    <td><input class="user" type="password"></td>
+                    <td><input id="repass" class="user" type="password"></td>
                 </tr>
-                <tr class="none">
+                <%--<tr class="none">
                     <td><h1>选择头像:</h1></td>
                     <td><input id="photo" style="font-size: 20px" class="user" type="file"></td>
-                </tr>
+                </tr>--%>
                 <tr>
                     <td>
                         <input id="denglu" class="btn" type="button" value="登录">
@@ -134,60 +134,6 @@
 <section class="our-services slideanim" id="service">
     <h3 class="text-center slideanim">我们的目的地</h3>
     <p class="text-center slideanim">一个真正的旅行家必是一个流浪者，追寻某种社会里遗失的宝藏</p>
-    <%--<div id="features">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 centered">
-                    <!-- ACCORDION -->
-                    <div class="accordion ac" id="accordion2">
-                        <div class="accordion-group">
-                            <div class="accordion-heading">
-                                <a class="accordion-toggle slideanim" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">First Class Design</a>
-                            </div><!-- /accordion-heading -->
-                            <div id="collapseOne" class="accordion-body collapse in">
-                                <div class="accordion-inner slideanim">
-                                    <p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                </div><!-- /accordion-inner -->
-                            </div><!-- /collapse -->
-                        </div><!-- /accordion-group -->
-                        <div class="accordion-group">
-                            <div class="accordion-heading">
-                                <a class="accordion-toggle slideanim" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">Retina Ready Theme</a>
-                            </div>
-                            <div id="collapseTwo" class="accordion-body collapse">
-                                <div class="accordion-inner slideanim">
-                                    <p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                </div><!-- /accordion-inner -->
-                            </div><!-- /collapse -->
-                        </div><!-- /accordion-group -->
-                        <div class="accordion-group">
-                            <div class="accordion-heading">
-                                <a class="accordion-toggle slideanim" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">Awesome Support</a>
-                            </div>
-                            <div id="collapseThree" class="accordion-body collapse">
-                                <div class="accordion-inner slideanim">
-                                    <p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                </div><!-- /accordion-inner -->
-                            </div><!-- /collapse -->
-                        </div><!-- /accordion-group -->
-                        <div class="accordion-group">
-                            <div class="accordion-heading">
-                                <a class="accordion-toggle slideanim" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">Responsive Design</a>
-                            </div>
-                            <div id="collapseFour" class="accordion-body collapse">
-                                <div class="accordion-inner slideanim">
-                                    <p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                </div><!-- /accordion-inner -->
-                            </div><!-- /collapse -->
-                        </div><!-- /accordion-group -->
-                    </div><!-- Accordion -->
-                </div>
-                <div class="col-md-6">
-                    <img src="images/service-img.jpg" class="img-responsive slideanim" alt="service">
-                </div>
-            </div>
-        </div><!--/ .container -->
-    </div><!--/ #features -->--%>
     <div class="slideanim TT" id="wai">
         <form>
             <table <%--style="margin: auto"--%>>
@@ -222,6 +168,7 @@
     <h3 class="text-center slideanim">机票购买</h3>
     <p class="text-center slideanim">想呼吸着每座城市的空气，想感受着每座城市的气息，想看尽每座城市的风景</p>
     <div class="fly1 slideanim" style="border: 1px red solid">
+        <div id="top"></div>
     <div class="event-info">
                     <table class="fly2" style="border: solid 1px red">
                         <tr style="color: rgba(255,255,255,0.7);height: 50px">
@@ -252,7 +199,7 @@
             <table class="fly2" style="border: solid 1px red">
                 <tr style="color: rgba(255,255,255,0.7);height: 50px">
                     <td></td>
-                    <td colspan="2"><h1><strong><span id="go">出发地</span><input id="zhong" style="border: hidden;background-color: transparent" type="button" value=">>>>"><span id="end">目的地</span></strong></h1></td>
+                    <td colspan="2"><h1><strong><span id="go1">出发地</span><input id="zhong1" style="border: hidden;background-color: transparent" type="button" value=">>>>"><span id="end">目的地</span></strong></h1></td>
                     <td></td>
                 </tr>
                 <tr style="color: rgba(255,255,255,0.7);height: 50px">

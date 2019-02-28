@@ -2,6 +2,7 @@ package service.impl;
 
 import dao.UserInfoDao;
 import dao.impl.UserInfoDaoImpl;
+import entity.User;
 import entity.UserInfo;
 import service.UserInfoService;
 
@@ -20,6 +21,16 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public int add(UserInfo userinfo) {
         return userinfodao.add(userinfo);
+    }
+
+    @Override
+    public int addT(User user) {
+        return userinfodao.addT(user);
+    }
+
+    @Override
+    public int Login(User user) {
+        return userinfodao.Login(user);
     }
 
     @Override

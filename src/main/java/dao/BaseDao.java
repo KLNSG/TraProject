@@ -79,7 +79,8 @@ public class BaseDao {
         }
     }
 
-    /*public static void main(String[] args) {
+   /* public static void main(String[] args) {
+    *//*    con=getCon();*//*
         System.out.println();
     }*/
 }

@@ -262,6 +262,7 @@ section.our-services img.img-responsive {
 /*-- Events Section --*/
 section.our-events {
 	padding:100px 0;
+	height: 1100px;
 	background:url(../images/event.jpg) no-repeat;
     background-attachment: fixed;
     background-position: center;
@@ -1415,4 +1416,8 @@ h1{
 	background-color: transparent;
 	border: hidden;
 	font-size: 35px;
+}
+#top{
+	height: 80px;
+	border: 1px red solid;
 }
