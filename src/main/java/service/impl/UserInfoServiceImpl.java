@@ -23,6 +23,8 @@ public class UserInfoServiceImpl implements UserInfoService {
         return userinfodao.add(userinfo);
     }
 
+
+
     @Override
     public int addT(User user) {
         return userinfodao.addT(user);
@@ -36,5 +38,10 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public int update(UserInfo userinfo) {
         return userinfodao.update(userinfo);
+    }
+
+    @Override
+    public int update(User user) {
+        return userinfodao.updateuser(user);
     }
 }

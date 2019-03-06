@@ -15,6 +15,14 @@ import java.util.List;
  */
 public class UserInfoDaoImpl extends BaseDao implements UserInfoDao {
     @Override
+    public int updateuser(User user) {
+        String sql="update user set username=?,userpwd=? where userid=?";
+        /*System.out.println(user.getUserid()+""+user.getUsername()+""+user.getUserpwd());*/
+        Object[] pram={user.getUsername(),user.getUserpwd(),user.getUserid()};
+        return ExecuteUpdate(sql,pram);
+    }
+
+    @Override
     public int Login(User user) {
         con=getCon();
         int i=0;
@@ -40,6 +48,8 @@ public class UserInfoDaoImpl extends BaseDao implements UserInfoDao {
         Object[] pram={user.getUsername(),user.getUserpwd()};
         return ExecuteUpdate(sql,pram);
     }
+
+
 
     @Override
     public List<UserInfo> selectAll() {

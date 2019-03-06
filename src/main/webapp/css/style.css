@@ -130,7 +130,7 @@ body {
 	position: absolute;
 	top: 0;
 	right: 0;
-	left: 0;
+	left: 0px;
 	z-index: 20;
 }
 .navbar-wrapper > .container {
@@ -263,13 +263,17 @@ section.our-services img.img-responsive {
 section.our-events {
 	padding:100px 0;
 	height: 1100px;
-	background:url(../images/event.jpg) no-repeat;
+	background:url(../images/ye.jpg) no-repeat;
     background-attachment: fixed;
     background-position: center;
     background-size:100% 100%;
 	-webkit-background-size:100% 100%;
 	-moz-background-size:100% 100%;
 	-o-background-size:100% 100%;
+}
+#a tr:hover{
+	color: #5bc0de;
+	background-color: rgba(255,255,255,0.3);
 }
 section.our-events  h3.text-center {
 	color:#fff;
@@ -1279,7 +1283,14 @@ section.footer h2 {
 #OT{
 	height: 400px;
 	margin: 0px auto;
-	border: 1px red solid;
+	/*border: 1px red solid;*/
+	text-align: center;
+}
+#TT{
+	display: none;
+	height: 400px;
+	margin: 0px auto;
+	/*border: 1px red solid;*/
 	text-align: center;
 }
 .btn{
@@ -1290,6 +1301,10 @@ section.footer h2 {
 	width: 120px;
 	font-size: 30px;
 }
+#save{
+	border-color: black;
+	color: black;
+}
 .user{
 	margin-left: 20px;
 	height: 40px;
@@ -1297,7 +1312,7 @@ section.footer h2 {
 	font-size: 35px;
 }
 .deng{
-	border: solid 1px red;
+/*	border: solid 1px red;*/
 	margin: 0px auto;
 }
 #denglu{
@@ -1325,9 +1340,6 @@ h1{
 	right: 0;
 	left: 0;
 	z-index: 20;
-}
-.TT{
-	border: 1px red solid;
 }
 #wai{
 	margin: auto;
@@ -1374,9 +1386,20 @@ h1{
 	color: wheat;
 	text-align: center;
 	width: 1200px;
-	height: 500px;
+	height: 100px;
 	margin: 0px auto;
 }
+.fly3{
+	color: wheat;
+	text-align: center;
+	width: 1200px;
+	height: 40px;
+	/*border: 1px solid red;*/
+}
+/*.fly3 td,tr{
+	border: solid 1px red;
+}*/
+
 /*td,tr{
 	border: 1px white solid;
 }*/
@@ -1418,6 +1441,48 @@ h1{
 	font-size: 35px;
 }
 #top{
-	height: 80px;
-	border: 1px red solid;
+	margin-bottom: 20px;
+	height: 90px;
+	/*border: 1px red solid;*/
+}
+.sp{
+	/*border:red solid 1px;*/
+	width: 154px;
+}
+#My{
+	cursor: pointer;
+	opacity:0;
+}
+.fone{
+	color: aqua;
+	background-color: rgba(0,0,0,0.7);
+	border-bottom-color: aqua;
+}
+.spbtn{
+	background-color: rgba(0,0,0,0.7);
+	border: 0px;
+	color: wheat;
+	width: 154px;
+	height: 90px
+}
+.ub:hover{
+	color: #dddddd;
+	background-color: #8c8c8c;
+}
+.ub{
+	cursor: pointer;
+	opacity: 0;
+	text-align: center;
+	padding: 13px 20px;
+	margin: 10px auto;
+	font-size: 18px;
+	/*margin-top: 10px;*/
+	width: 120px;
+	height: 50px;
+	background-color: transparent;
+	color: #A7A7A7;
+	border-right: 3px #8c8c8c solid;
+}
+#user{
+
 }

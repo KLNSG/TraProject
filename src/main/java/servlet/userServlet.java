@@ -25,7 +25,6 @@ public class userServlet extends HttpServlet {
            response.setCharacterEncoding("utf-8");
              response.setContentType("text/html;charset=UTF-8");
              String type=request.getParameter("type");
-             System.out.println(type);
                  switch (type){
                      case "add":
                          insert1(request,response);
@@ -36,10 +35,38 @@ public class userServlet extends HttpServlet {
                      case "yan":
                          yan(request,response);
                          break;
+                     case "upd":
+                         upd(request,response);
+                         break;
                      default:
                          System.out.println("类型出错");
                          break;
                  }
+    }
+
+    public void upd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        PrintWriter out=response.getWriter();
+        String isok="";
+        String username=request.getParameter("username");
+        String userpwd=request.getParameter("userpwd");
+        String userid=request.getParameter("userid");
+        User u=new User();
+        u.setUserid(Integer.valueOf(userid));
+        u.setUsername(username);
+        u.setUserpwd(userpwd);
+        /*System.out.println(userid+""+username+""+userpwd);*/
+        int i=us.update(u);
+        if (i!=0){
+            isok="true";
+            out.write(isok);
+            out.flush();
+            out.close();
+        }else {
+            isok="false";
+            out.write(isok);
+            out.flush();
+            out.close();
+        }
     }
 
     public void yan(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
@@ -54,7 +81,6 @@ public class userServlet extends HttpServlet {
         u.setUserpwd(pass);
         int i=us.Login(u);
         String id=String.valueOf(i);
-        System.out.println(id);
         PrintWriter out=response.getWriter();
         out.write(id);
         out.flush();
@@ -70,7 +96,6 @@ public class userServlet extends HttpServlet {
         a.setUsername(name);
         a.setUserpwd(pass);
         int i=us.addT(a);
-        System.out.println(i);
         if (i!=0){
             isok="true";
         }

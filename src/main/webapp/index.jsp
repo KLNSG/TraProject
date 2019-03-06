@@ -15,7 +15,7 @@
     <meta name="keywords" content="" />
     <!-- css files -->
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all" />
+    <%--<link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all" />--%>
     <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
     <!-- /css files -->
     <!-- font files -->
@@ -23,10 +23,9 @@
     <link href='http://fonts.useso.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>--%>
     <!-- /font files -->
     <!-- js files -->
-    <script src="js/modernizr.custom.js"></script>
+    <%--<script src="js/modernizr.custom.js"></script>--%>
     <script src="js/jquery-1.12.4.js"></script>
     <script type="text/javascript" src="js/DIV.js"></script>
-    <script type="text/javascript" src="js/DIV2.js"></script>
     <!-- /js files -->
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
@@ -52,6 +51,12 @@
                         <li><a href="#gallery"><span data-hover="火车票">火车票</span></a></li>
                         <li><a href="#testimonials"><span data-hover="旅游百货">旅游百货</span></a></li>
                         <li><a href="#contact"><span data-hover="我的订单">我的订单</span></a></li>
+                            <li id="q">
+                                <a id="My" <%--href="#"--%>></a>
+                                <div id="user" class="ub">修改密码</div>
+                                <div id="info" class="ub">完善资料</div>
+                                <div id="exit" class="ub">退出账号</div>
+                            </li>
                     </ul>
                 </div>
             </div>
@@ -93,7 +98,7 @@
 
 <div class="f">
     <section class="about-us" id="about">
-    <h3 class="text-center">用户登录</h3>
+    <h3 id="userLoginfont" class="text-center">用户登录</h3>
     <p class="text-center">背上行囊去远方，无论成功与否，至少不会迷茫</p>
     <div class="deng about-info">
         <form>
@@ -121,6 +126,19 @@
                     <td>
                         <input id="zhuce" class="btn" type="button" value="注册">
                     </td>
+                </tr>
+            </table>
+            <table id="TT">
+                <tr>
+                    <td><h1>修改用户名:</h1></td>
+                    <td><input id="sname" class="user" type="text"></td>
+                </tr>
+                <tr>
+                    <td class="block"><h1>修改密码:</h1></td>
+                    <td><input id="spass" class="user" type="password"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input id="save" value="保存" class="btn" type="button"></td>
                 </tr>
             </table>
         </form>
@@ -167,10 +185,24 @@
 <section class="our-events slideanim" id="events">
     <h3 class="text-center slideanim">机票购买</h3>
     <p class="text-center slideanim">想呼吸着每座城市的空气，想感受着每座城市的气息，想看尽每座城市的风景</p>
-    <div class="fly1 slideanim" style="border: 1px red solid">
-        <div id="top"></div>
+    <div class="fly1 slideanim" <%--style="border: 1px red solid"--%>>
+        <div id="top">
+            <table id="time" style="text-align: center;/*border: 1px solid white ;*/width: 1200px;height: 110px">
+                <tr>
+                    <td style="text-align: left;width: 60px"><input style="border: hidden;font-size: 45px;color: #66afe9;background-color: rgba(0,0,0,0.7);width: 60px;height: 90px" id="last-week" type="button" value="<"></td>
+                    <td class="sp"><button class="spbtn"></button></td>
+                    <td class="sp"><button class="spbtn"></button></td>
+                    <td class="sp"><button class="spbtn"></button></td>
+                    <td class="sp"><button class="spbtn"></button></td>
+                    <td class="sp"><button class="spbtn"></button></td>
+                    <td class="sp"><button class="spbtn"></button></td>
+                    <td class="sp"><button class="spbtn"></button></td>
+                    <td style="text-align: right;width: 60px"><input style="border: hidden;font-size: 45px;color: #66afe9;background-color: rgba(0,0,0,0.7);width: 60px;height: 90px" id="next-week" type="button" value=">"></td>
+                </tr>
+            </table>
+        </div>
     <div class="event-info">
-                    <table class="fly2" style="border: solid 1px red">
+                    <table id="flyinfo" class="fly2" <%--style="border: solid 1px red"--%>>
                         <tr style="color: rgba(255,255,255,0.7);height: 50px">
                             <td></td>
                             <td colspan="2"><h1><strong><span id="go">出发地</span><input id="zhong" style="border: hidden;background-color: transparent" type="button" value=">>>>"><span id="end">目的地</span></strong></h1></td>
@@ -182,10 +214,12 @@
                             <td><h1><strong>抵达时间</strong></h1></td>
                             <td><h1><strong>价格/选择</strong></h1></td>
                         </tr>
-                        <tr>
-
-                        </tr>
                     </table>
+        <div style="height: 500px;width: 1200px;overflow: auto">
+        <table id="a" class="fly3">
+            <tr></tr>
+        </table>
+        </div>
     </div>
     </div>
 </section>
@@ -194,12 +228,27 @@
 <section class="our-testimonials slideanim" id="testimonials">
     <h3 class="text-center slideanim">火车票购买</h3>
     <p class="text-center slideanim">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-    <div class="fly1 slideanim" style="border: 1px red solid">
+    <div class="fly1 slideanim" <%--style="border: 1px red solid"--%>>
+        <div id="top">
+            <table id="time" style="text-align: center;/*border: 1px solid white ;*/width: 1200px;height: 110px">
+                <tr>
+                    <td style="text-align: left;width: 60px"><input style="border: hidden;font-size: 45px;color: #66afe9;background-color: rgba(0,0,0,0.7);width: 60px;height: 90px" id="last-week" type="button" value="<"></td>
+                    <td class="sp"><button class="spbtn"></button></td>
+                    <td class="sp"><button class="spbtn"></button></td>
+                    <td class="sp"><button class="spbtn"></button></td>
+                    <td class="sp"><button class="spbtn"></button></td>
+                    <td class="sp"><button class="spbtn"></button></td>
+                    <td class="sp"><button class="spbtn"></button></td>
+                    <td class="sp"><button class="spbtn"></button></td>
+                    <td style="text-align: right;width: 60px"><input style="border: hidden;font-size: 45px;color: #66afe9;background-color: rgba(0,0,0,0.7);width: 60px;height: 90px" id="next-week" type="button" value=">"></td>
+                </tr>
+            </table>
+        </div>
         <div class="event-info">
-            <table class="fly2" style="border: solid 1px red">
+            <table id="flyinfo" class="fly2" <%--style="border: solid 1px red"--%>>
                 <tr style="color: rgba(255,255,255,0.7);height: 50px">
                     <td></td>
-                    <td colspan="2"><h1><strong><span id="go1">出发地</span><input id="zhong1" style="border: hidden;background-color: transparent" type="button" value=">>>>"><span id="end">目的地</span></strong></h1></td>
+                    <td colspan="2"><h1><strong><span id="go">出发地</span><input id="zhong" style="border: hidden;background-color: transparent" type="button" value=">>>>"><span id="end">目的地</span></strong></h1></td>
                     <td></td>
                 </tr>
                 <tr style="color: rgba(255,255,255,0.7);height: 50px">
@@ -207,9 +256,6 @@
                     <td><h1><strong>出发时间</strong></h1></td>
                     <td><h1><strong>抵达时间</strong></h1></td>
                     <td><h1><strong>价格/选择</strong></h1></td>
-                </tr>
-                <tr>
-
                 </tr>
             </table>
         </div>
@@ -313,7 +359,7 @@
 <!-- /Back To Top -->
 
 <!-- js files -->
-<script src="js/jquery.min.js"></script>
+<%--<script src="js/jquery.min.js"></script>--%>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/SmoothScroll.min.js"></script>
 <!-- js for gallery -->

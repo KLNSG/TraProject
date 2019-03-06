@@ -14,4 +14,5 @@ public interface UserInfoService {
     int addT(User user);
     int Login(User user);
     int update(UserInfo userinfo);
+    int update(User user);
 }

@@ -11,6 +11,8 @@ import java.util.List;
 public interface UserInfoDao {
     //查询
 
+    int updateuser(User user);
+
     int Login(User user);
 
     int addT(User user);
