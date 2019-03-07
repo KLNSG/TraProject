@@ -239,6 +239,9 @@ $(function () {
         }
     }
 
+    function a() {
+        
+    }
     function ajax_denglu() {
          $.ajax({
              "url": "us?type=Log",
