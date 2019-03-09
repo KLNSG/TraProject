@@ -92,4 +92,33 @@ public class FlyinfoServiceImpl implements FlyinfoService {
     public int buyfly(int userid, String airid) {
         return f.buyfly(userid,airid);
     }
+
+    @Override
+    public List<Flyinfo> selcai(Integer id) {
+        String now="";
+        String  moth="";
+        String day="";
+        String time="";
+        List<Flyinfo> list= f.selding(id);
+        for (Flyinfo s:list) {
+            now=String.valueOf(s.getStarttime());
+            moth=now.substring(5,7);
+            day=now.substring(8,10);
+            time=now.substring(11,16);
+            System.out.println(time);
+            if (Integer.valueOf(moth)<10){
+                moth=moth.substring(1,2);
+            }
+            if (Integer.valueOf(day)<10){
+                day=day.substring(1,2);
+            }
+            s.setStime(moth+"月"+day+"日   "+time);
+        }
+        return list;
+    }
+
+    @Override
+    public int delbuy(Integer id) {
+        return f.delbuy(id);
+    }
 }

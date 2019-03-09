@@ -4,6 +4,7 @@ import dao.impl.FlyinfoDaoImpl;
 import dao.impl.UserInfoDaoImpl;
 import entity.Flyinfo;
 import entity.User;
+import service.impl.FlyinfoServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +17,10 @@ public class Test {
        /* String name="文庄";
         String pwd="123456";*/
         List<Flyinfo> list=new ArrayList<>();
-        FlyinfoDaoImpl f=new FlyinfoDaoImpl();
-        list=f.selectbycity("","");
-        for (Flyinfo fly:list) {
-            System.out.println(fly.toString());
-        }
+        FlyinfoServiceImpl f=new FlyinfoServiceImpl();
+        list=f.selcai(1);
+        /*for (Flyinfo d:list) {
+            System.out.println(d.getStarttime());
+        }*/
     }
 }

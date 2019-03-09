@@ -45,7 +45,7 @@
                 <div id="navbar" class="navbar-collapse collapse navbar-right">
                     <ul class="nav navbar-nav">
                         <%--<li><a href="#"><span data-hover="首页">首页</span></a></li>--%>
-                        <li><a href="#" id="Login"><span data-hover="登录">登录</span></a></li>
+                        <li><a style="cursor: pointer;" id="Login"><span data-hover="登录">登录</span></a></li>
                         <li><a href="#service"><span data-hover="目的地">目的地</span></a></li>
                         <li><a href="#events"><span data-hover="机票">机票</span></a></li>
                         <li><a href="#gallery"><span data-hover="火车票">火车票</span></a></li>
@@ -99,26 +99,26 @@
 <div class="f">
     <section class="about-us" id="about">
     <h3 id="userLoginfont" class="text-center">用户登录</h3>
-    <p class="text-center">背上行囊去远方，无论成功与否，至少不会迷茫</p>
+    <p id="xx" class="text-center">背上行囊去远方，无论成功与否，至少不会迷茫</p>
     <div class="deng about-info">
-        <form>
+        <form id="uploadForm" method="post" enctype="multipart/form-data">
             <table id="OT">
                 <tr>
                     <td><h1>用户名:</h1></td>
-                    <td><input id="name" class="user" type="text"></td>
+                    <td><input name="name" id="name" class="user" type="text"></td>
                 </tr>
                 <tr>
                     <td class="block"><h1>密码:</h1></td>
-                    <td><input id="pass" class="user" type="password"></td>
+                    <td><input name="pass" id="pass" class="user" type="password"></td>
                 </tr>
                 <tr class="none">
                     <td><h1>确认密码:</h1></td>
-                    <td><input id="repass" class="user" type="password"></td>
+                    <td><input name="repass" id="repass" class="user" type="password"></td>
                 </tr>
-                <%--<tr class="none">
+                <tr class="none">
                     <td><h1>选择头像:</h1></td>
-                    <td><input id="photo" style="font-size: 20px" class="user" type="file"></td>
-                </tr>--%>
+                    <td><input name="photo" id="photo" style="font-size: 20px" class="user" type="file"></td>
+                </tr>
                 <tr>
                     <td>
                         <input id="denglu" class="btn" type="button" value="登录">
@@ -139,6 +139,35 @@
                 </tr>
                 <tr>
                     <td colspan="2"><input id="save" value="保存" class="btn" type="button"></td>
+                </tr>
+            </table>
+            <table id="TTT">
+                <tr>
+                    <td><h1>年龄:</h1></td>
+                    <td><input id="age" class="user" type="text"></td>
+                </tr>
+                <tr>
+                    <td><h1>性别:</h1></td>
+                    <td><input id="sex" class="user" type="text"></td>
+                </tr>
+                <tr>
+                    <td><h1>电话:</h1></td>
+                    <td><input id="phone" class="user" type="text"></td>
+                </tr>
+                <tr>
+                    <td><h1>身份证号:</h1></td>
+                    <td><input id="usercard" class="user" type="text"></td>
+                </tr>
+                <tr>
+                    <td><h1>联系地址:</h1></td>
+                    <td><input id="address" class="user" type="text"></td>
+                </tr>
+                <tr>
+                    <td><h1>邮箱</h1></td>
+                    <td><input id="email" class="user" type="email"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input id="saveinfo" value="保存" style="font-size: 35px;border-color: black;color: black;background-color: transparent;width: 120px;height: 60px;" type="button"></td>
                 </tr>
             </table>
         </form>
@@ -229,36 +258,7 @@
     <h3 class="text-center slideanim">火车票购买</h3>
     <p class="text-center slideanim">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
     <div class="fly1 slideanim" <%--style="border: 1px red solid"--%>>
-        <div id="top">
-            <table id="time" style="text-align: center;/*border: 1px solid white ;*/width: 1200px;height: 110px">
-                <tr>
-                    <td style="text-align: left;width: 60px"><input style="border: hidden;font-size: 45px;color: #66afe9;background-color: rgba(0,0,0,0.7);width: 60px;height: 90px" id="last-week" type="button" value="<"></td>
-                    <td class="sp"><button class="spbtn"></button></td>
-                    <td class="sp"><button class="spbtn"></button></td>
-                    <td class="sp"><button class="spbtn"></button></td>
-                    <td class="sp"><button class="spbtn"></button></td>
-                    <td class="sp"><button class="spbtn"></button></td>
-                    <td class="sp"><button class="spbtn"></button></td>
-                    <td class="sp"><button class="spbtn"></button></td>
-                    <td style="text-align: right;width: 60px"><input style="border: hidden;font-size: 45px;color: #66afe9;background-color: rgba(0,0,0,0.7);width: 60px;height: 90px" id="next-week" type="button" value=">"></td>
-                </tr>
-            </table>
-        </div>
-        <div class="event-info">
-            <table id="flyinfo" class="fly2" <%--style="border: solid 1px red"--%>>
-                <tr style="color: rgba(255,255,255,0.7);height: 50px">
-                    <td></td>
-                    <td colspan="2"><h1><strong><span id="go">出发地</span><input id="zhong" style="border: hidden;background-color: transparent" type="button" value=">>>>"><span id="end">目的地</span></strong></h1></td>
-                    <td></td>
-                </tr>
-                <tr style="color: rgba(255,255,255,0.7);height: 50px">
-                    <td><h1><strong>航班信息</strong></h1></td>
-                    <td><h1><strong>出发时间</strong></h1></td>
-                    <td><h1><strong>抵达时间</strong></h1></td>
-                    <td><h1><strong>价格/选择</strong></h1></td>
-                </tr>
-            </table>
-        </div>
+
     </div>
 </section>
 <!-- /Gallery Section -->
@@ -280,10 +280,34 @@
 <!-- Testimonials -->
 <!-- Contact Section -->
 <section class="our-contacts slideanim" id="contact">
-    <div class="TT myding">
-        <div class="TT up"><input class="ding" type="button" value="全部订单">|<input class="ding" type="button" value="个人中心"></div>
-        <div class="TT down">11</div>
-        <div></div>
+    <div class="myding">
+        <input id="back" style="font-size: 35px;color: #c9e2b3;border: none;background-color: blueviolet;height: 50px;width: 0px;margin-top: 70px;position: absolute;" type="button" value="">
+        <div class="up">
+            <input class="ding" type="button" value="全部订单">|<input class="ding" type="button" value="个人中心"></div>
+        <div id="Myinfo" class="down">
+            <div style="overflow: auto" id="filghtinfo" class="down">
+                <%--<div class="airinfo"><label>航班号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><label>出发地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><label>目的地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><label>出发时间&nbsp;&nbsp;</label></div>--%>
+            </div>
+            <div id="caidan">
+                <input id="air" class="cai" type="button" value="飞机订单"><br/>
+                <input class="cai" type="button" value="火车订单"><br/>
+                <input class="cai" type="button" value="关于我们">
+            </div>
+            <div id="userimg">
+        <img src="" class="img" alt="" >
+                <label id="name1"></label>
+            </div>
+            <table id="Myinfoshow">
+                <tr><td>昵称：</td><td><label id="na"></label></td></tr>
+                <tr><td>年龄：</td><td><label id="ag"></label></td></tr>
+                <tr><td>性别：</td><td><label id="se"></label></td></tr>
+                <tr><td>电话：</td><td><label id="ph"></label></td></tr>
+                <tr><td>身份证号：</td><td><label id="card"></label></td></tr>
+                <tr><td>联系地址：</td><td><label id="ad"></label></td></tr>
+                <tr><td>邮箱：</td><td><label id="em"></label></td></tr>
+            </table>
+        </div>
+
     </div>
 </section>
 <!-- /Contact Section -->

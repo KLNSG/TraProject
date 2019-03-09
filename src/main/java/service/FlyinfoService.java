@@ -16,4 +16,8 @@ public interface FlyinfoService {
     List<Flyinfo> selectbytime(String start);
 
     int buyfly(int userid,String airid);
+
+    List<Flyinfo> selcai(Integer id);
+
+    int delbuy(Integer id);
 }

@@ -3,6 +3,7 @@ $(function () {
     var color1
     var str     //按钮文字
     var userid  //登录的用户ID
+    var username
 
     var cells = document.getElementById('time').getElementsByTagName('button');
     var clen = cells.length;
@@ -221,27 +222,71 @@ $(function () {
          time_ajax2(moth,Number(day)+Number(7))*!/
     }*/
 
-    function ajax_zhuce() {
+    function ajax_adduserinfo() {
         $.ajax({
-            "url": "us?type=add",
+            "url": "us?type=adduserinfo",
             "type": "Post",
             "data": {
-                name: $("#name").val(),
-                pass: $("#pass").val(),
+                userid:userid,
+                username:username,
+                age:$("#age").val(),
+                sex:$("#sex").val(),
+                phone:$("#phone").val(),
+                cardid:$("#usercard").val(),
+                address:$("#address").val(),
+                email:$("#email").val()
             },
             "dataType": "text",
-            success: list2
-        })
-        function list2(data){
+            success: ss
+          })
+        function ss(data) {
+           if (data!=0){
+               alert("添加成功")
+               $(".f").hide(500)
+           }else if (data==0){
+               alert("您已添加过信息了")
+           }else {
+               alert("系统出错")
+           }
+        }
+    }
+
+    function ajax_zhuce() {
+        $.ajax({
+            url: 'us?type=add',
+            type: 'POST',
+            cache: false,
+            data: new FormData($('#uploadForm')[0]),
+            processData: false,
+            contentType: false,
+            success: a
+        }).done(function(res) {
+        }).fail(function(res) {});
+        function a(data) {
             if (data=="true"){
-               alert("注册成功")
+                alert("注册成功")
             }
         }
     }
 
-    function a() {
-        
+    function ajax_userka() {
+        $.ajax({
+            "url": "us?type=userka",
+            "type": "Post",
+            "data": {
+                userid:userid
+            },
+            "dataType": "JSON",
+            success:cc
+        })
+        function cc(data) {
+         for (var i=0;i<data.length;i++){
+             $(".img").attr("src",data[i].userimage)
+             $("#name1").text(data[i].username)
+         }
+        }
     }
+
     function ajax_denglu() {
          $.ajax({
              "url": "us?type=Log",
@@ -255,6 +300,8 @@ $(function () {
                  if (data!="0"){
                      alert("登陆成功")
                      userid=data
+                     username=$("#name").val()
+                     ajax_userka()
                      $(".f").hide(200)
                      $("#Login").hide()
                      $("#My").text($("#name").val()).css("opacity","1").css("font-size","60px")
@@ -404,6 +451,7 @@ $(function () {
                 $("#My").fadeOut(250)
                 $("#My").text($("#sname").val());
                 $("#My").fadeIn(250)
+                $(".f").hide(500)
             }else {
                 alert("系统出错")
             }
@@ -444,8 +492,11 @@ $(function () {
 
     $("#Login").click(function () {
         $("#userLoginfont").text("用户登录")
+        $("#userLoginfont").show()
+        $("#xx").show()
         $("#OT").show()
         $("#TT").hide()
+        $("#TTT").hide()
         $(".f").show()
         $(".f").addClass("slide")
         $(".text-center").addClass("slide");
@@ -582,9 +633,10 @@ $(function () {
     })
 
     $("#exit").click(function () {
-        if ($("#My").css("opacity")==1) {
+        if ($("#My").css("opacity")==1&&$("#exit").css("opacity")==1) {
             if (confirm("您确定要退出吗")) {
                 userid=0
+                username=""
                 $("#exit").animate({
                     "opacity": 0
                 }, 500, function () {
@@ -613,15 +665,206 @@ $(function () {
     })
 
     $("#user").click(function () {
-        if ($("#My").css("opacity")==1) {
+        if ($("#My").css("opacity")==1&&$("#user").css("opacity")==1) {
+            $("#userLoginfont").show()
+            $("#xx").show()
             $("#userLoginfont").text("修改信息")
             $(".f").show()
             $("#OT").hide()
+            $("#TTT").hide()
             $("#TT").show()
+        }
+    })
+
+    $("#info").click(function () {
+        if ($("#My").css("opacity")==1&&$("#user").css("opacity")==1){
+            $("#userLoginfont").hide()
+            $("#xx").hide()
+            $(".f").show()
+            $("#OT").hide()
+            $("#TT").hide()
+            $("#TTT").show()
         }
     })
 
     $("#save").click(function () {
         ajax_updateuser();
+    })
+
+
+     function ajax_userinfo() {
+        $.ajax({
+            "url": "us?type=selinfobyid",
+            "type": "Post",
+            "data": {
+                userid:userid
+            },
+            "dataType": "JSON",
+            success:mm
+         })
+         function mm(data) {
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].username==null){
+                        alert("资料为空")
+                        return false
+                    }else {
+                        $("#na").text(data[i].username)
+                        $("#ag").text(data[i].userage)
+                        $("#se").text(data[i].usersex)
+                        $("#ph").text(data[i].userphone)
+                        $("#card").text(data[i].usercardid)
+                        $("#ad").text(data[i].useraddress)
+                        $("#em").text(data[i].email)
+                        userimg()
+                    }
+                }
+        }
+    }
+    function userimg() {
+        if ($("#userimg").css("margin-left") == "380px") {
+            $("#caidan").animate({
+                "opacity": 0
+            }, 500)
+            $(".myding,.up").animate({
+                "width": "1200px"
+            }, 500)
+            $("#userimg").animate({
+                "marginLeft": "180px"
+            }, "slow", function () {
+                $("#userimg").addClass("xuanzhong")
+                setTimeout(function () {
+                    $("#Myinfoshow").css("display", "block")
+                }, 500)
+            })
+        } else {
+            $("#caidan").animate({
+                "opacity": 1
+            }, 500)
+            $(".myding,.up").animate({
+                "width": "700px"
+            }, 500)
+            $("#Myinfoshow").css("display", "none")
+            setTimeout(function () {
+                $("#userimg").removeClass("xuanzhong")
+                $("#userimg").animate({
+                    "marginLeft": "380px"
+                }, "slow")
+            }, 400)
+        }
+    }
+    $("#userimg").click(function () {
+        if ($("#userimg").css("opacity")== 1) {
+            ajax_userinfo()
+        }
+    })
+
+    $(".cai").hover(function () {
+        color=$(this).css("border-top-color")
+        $(this).css("background-color",color).css("color","wheat");
+    },function () {
+        $(this).css({"border-color":color,"background-color":"transparent","color":color})
+        $(this).css("background-color","transparent").css("color",color)
+    })
+
+    $("#saveinfo").click(function () {
+        ajax_adduserinfo()
+    })
+
+    function ajax_selcai() {
+            $.ajax({
+            "url": "fly?type=selcai",
+            "type": "Post",
+            "data": {
+                userid:userid
+            },
+            "dataType": "JSON",
+                success:a
+        })
+        function a(data) {
+                if (data==0){
+                    alert("您暂时没有下订单")
+                    return false
+                }else {
+                    for (var i = 0; i < data.length; i++) {
+                        caidan()
+                        var $s = $("<div style='margin-top: " + (i * 80) + "px' class='airinfo'><label>" + data[i].airid + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><label>" + data[i].scity + "&nbsp;&nbsp;-->&nbsp;&nbsp;</label><label>" + data[i].ecity + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><label>" + data[i].stime + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input style='float: right' class='del' id='" + data[i].ding + "' type='button' value='取消'></div>")
+                        $("#filghtinfo").append($s)
+                    }
+                }
+            }
+        }
+    $("#air").click(function () {
+        if ($("#caidan").css("opacity")== 1) {
+            ajax_selcai()
+        }
+    })
+    function caidan() {
+            $(".myding,.up").animate({
+                "width": "900px"
+            }, 500)
+            $("#caidan").animate({
+                "opacity": 0,
+                "marginLeft": "0px"
+            }, 300)
+            $("#userimg").animate({
+                "opacity": 0,
+                "marginLeft": "400px"
+            }, 300)
+        $("#back").attr("value","返回")
+            $("#back").animate({
+                "width":"100px"
+            },500)
+            $("#filghtinfo").show()
+    }
+
+    
+    function clearcai() {
+        var trs=$("#filghtinfo").find("div");
+        for (var i=0;i<trs.length;i++){
+            trs[i].remove();
+        }
+    }
+    function ajax_delFlyinfo(id) {
+        $.ajax({
+            "url": "fly?type=del",
+            "type": "Post",
+            "data": {
+                buyid:id
+            },
+            "dataType": "text",
+            success:a
+        })
+        function a(data) {
+            if (data!=0){
+                alert("删除成功")
+                /*$("#"+id).parent().remove()*/
+                clearcai()
+                ajax_selcai()
+            }else {
+                alert("删除失败")
+            }
+        }
+    }
+    $(document).on("click",".del",function (){
+           ajax_delFlyinfo($(this).attr("id"))
+    })
+
+    $("#back").click(function () {
+        $(".myding,.up").animate({
+            "width": "700px"
+        }, 500)
+        $("#caidan").animate({
+            "opacity": 1,
+            "marginLeft": "20px"
+        }, 300)
+        $("#userimg").animate({
+            "opacity": 1,
+            "marginLeft": "380px"
+        }, 300)
+        $("#back").attr("value","")
+        $("#back").animate({
+            "width":"0px"
+        },500)
+        $("#filghtinfo").hide()
     })
 })

@@ -15,6 +15,32 @@ import java.util.List;
  */
 public class UserInfoDaoImpl extends BaseDao implements UserInfoDao {
     @Override
+    public List<User> select(Integer id) {
+        List<User> list=new ArrayList<>();
+        con=getCon();
+        String sql="select * from user";
+        if (id!=null&&id!=0){
+            sql+=" where userid=?";
+        }
+        try {
+            pstat = con.prepareStatement(sql);
+            if (id!=null&id!=0){
+                pstat.setInt(1,id);
+            }
+            rs=pstat.executeQuery();
+            while (rs.next()){
+                User u=new User();
+                u.setUsername(rs.getString("username"));
+                u.setUserimage(rs.getString("userimage"));
+                list.add(u);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    @Override
     public int updateuser(User user) {
         String sql="update user set username=?,userpwd=? where userid=?";
         /*System.out.println(user.getUserid()+""+user.getUsername()+""+user.getUserpwd());*/
@@ -44,31 +70,37 @@ public class UserInfoDaoImpl extends BaseDao implements UserInfoDao {
 
     @Override
     public int addT(User user) {
-        String sql="insert into user(userid,username,userpwd)values(null,?,?)";
-        Object[] pram={user.getUsername(),user.getUserpwd()};
+        String sql="insert into user(userid,username,userpwd,userimage)values(null,?,?,?)";
+        Object[] pram={user.getUsername(),user.getUserpwd(),user.getUserimage()};
         return ExecuteUpdate(sql,pram);
     }
 
 
 
     @Override
-    public List<UserInfo> selectAll() {
+    public List<UserInfo> selectAll(Integer id) {
         List<UserInfo> list=new ArrayList<>();
         Connection conn = getCon();
         String sql="select * from userinfo";
+        if (id!=null && id!=0){
+            sql+=" where userid=?";
+        }
         try {
             pstat=conn.prepareStatement(sql);
+            if (id!=null && id!=0){
+                pstat.setInt(1,id);
+            }
             rs=pstat.executeQuery();
             while (rs.next()){
                 UserInfo userinfo=new UserInfo();
-                userinfo.setUserid(rs.getInt("uid"));
-                userinfo.setUsername(rs.getString("uname"));
-                userinfo.setUserage(rs.getInt("uage"));
-                userinfo.setUsersex(rs.getString("usex"));
-                userinfo.setUserphone(rs.getInt("uphone"));
-                userinfo.setUsercardid(rs.getInt("ucardid"));
-                userinfo.setUseraddress(rs.getString("uaddress"));
-                userinfo.setEmail(rs.getString("uemail"));
+                userinfo.setUserid(rs.getInt("userid"));
+                userinfo.setUsername(rs.getString("username"));
+                userinfo.setUserage(rs.getInt("useage"));
+                userinfo.setUsersex(rs.getString("usersex"));
+                userinfo.setUserphone(rs.getString("userphone"));
+                userinfo.setUsercardid(rs.getString("usercardid"));
+                userinfo.setUseraddress(rs.getString("useraddress"));
+                userinfo.setEmail(rs.getString("email"));
                 list.add(userinfo);
             }
         } catch (SQLException e) {
@@ -79,8 +111,11 @@ public class UserInfoDaoImpl extends BaseDao implements UserInfoDao {
 
     @Override
     public int add(UserInfo userinfo) {
-        String sql="insert into userinfo values(null,?,?,?,?,?,?,?)";
-        Object[] objects={userinfo.getUsername()};
+        String sql="insert into userinfo values(?,?,?,?,?,?,?,?)";
+        Object[] objects={userinfo.getUserid(),userinfo.getUsername(),
+                           userinfo.getUserage(),userinfo.getUsersex(),
+                            userinfo.getUserphone(),userinfo.getUsercardid(),
+                            userinfo.getUseraddress(),userinfo.getEmail()};
         return ExecuteUpdate(sql,objects);
     }
 

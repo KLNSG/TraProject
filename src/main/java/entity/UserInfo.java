@@ -9,7 +9,7 @@ public class UserInfo implements Serializable{
     public UserInfo() {
     }
 
-    public UserInfo(Integer userid, String username, Integer userage, String usersex, Integer userphone, Integer usercardid, String useraddress, String email) {
+    public UserInfo(Integer userid, String username, Integer userage, String usersex, String userphone, String usercardid, String useraddress, String email) {
         this.userid = userid;
         this.username = username;
         this.userage = userage;
@@ -24,8 +24,8 @@ public class UserInfo implements Serializable{
     private String username;
     private Integer userage;
     private String usersex;
-    private Integer userphone;
-    private Integer usercardid;
+    private String userphone;
+    private String usercardid;
     private String useraddress;
     private String email;
 
@@ -61,19 +61,19 @@ public class UserInfo implements Serializable{
         this.usersex = usersex;
     }
 
-    public Integer getUserphone() {
+    public String getUserphone() {
         return userphone;
     }
 
-    public void setUserphone(Integer userphone) {
+    public void setUserphone(String userphone) {
         this.userphone = userphone;
     }
 
-    public Integer getUsercardid() {
+    public String getUsercardid() {
         return usercardid;
     }
 
-    public void setUsercardid(Integer usercardid) {
+    public void setUsercardid(String usercardid) {
         this.usercardid = usercardid;
     }
 

@@ -2,6 +2,7 @@ package servlet;
 
 import com.alibaba.fastjson.JSON;
 import entity.Flyinfo;
+import entity.UserInfo;
 import service.FlyinfoService;
 import service.impl.FlyinfoServiceImpl;
 
@@ -40,11 +41,37 @@ public class flyServlet extends HttpServlet {
                 case "selbytimeandcity":
                     selbytimeandcity(request,response);
                     break;
+                case "selcai":
+                    selcai(request,response);
+                    break;
+                case "del":
+                    del(request,response);
+                    break;
                 default:
                     System.out.println("类型出错");
                     break;
             }
         }
+    }
+
+    public void selcai(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        PrintWriter out=response.getWriter();
+        String id=request.getParameter("userid");
+        /*if (Integer.valueOf(id)==0){
+            Flyinfo f=new Flyinfo();
+            List<Flyinfo> list=new ArrayList<>();
+            list.add(f);
+            String str = JSON.toJSONString(list);
+            out.write(str);
+            out.flush();
+            out.close();
+        }else {*/
+            List<Flyinfo> list = fly.selcai(Integer.valueOf(id));
+            String str = JSON.toJSONString(list);
+            out.write(str);
+            out.flush();
+            out.close();
+        /*}*/
     }
 
     public void selbytimeandcity(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -100,6 +127,15 @@ public class flyServlet extends HttpServlet {
            out.write(str);
            out.flush();
            out.close();
+    }
+
+    public void del(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String buyid=request.getParameter("buyid");
+        int i=fly.delbuy(Integer.valueOf(buyid));
+        PrintWriter out=response.getWriter();
+        out.write(String.valueOf(i));
+        out.flush();
+        out.close();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

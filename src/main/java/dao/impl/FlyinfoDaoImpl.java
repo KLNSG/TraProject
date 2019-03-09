@@ -107,4 +107,40 @@ public class FlyinfoDaoImpl extends BaseDao implements FlyinfoDao {
         Object[] pram={userid,airid};
         return ExecuteUpdate(sql,pram);
     }
+
+    @Override
+    public List<Flyinfo> selding(Integer id) {
+        List<Flyinfo> list=new ArrayList<>();
+        con=getCon();
+        try {
+            String sql = "select  buy.id as bu,airplane.airID as a,a.cityname as b,b.cityname as c,starttime  from user inner join buy on user.userid=buy.userid inner join airplane on airplane.airID=buy.airid inner join city as a on a.cityid=airplane.startcity inner join city as b on b.cityid=airplane.endcity ";
+            if (id!=null && id!=0){
+                sql+=" where user.userid=?";
+            }
+            pstat=con.prepareStatement(sql);
+            if (id!=null && id!=0){
+                pstat.setInt(1,id);
+            }
+            rs=pstat.executeQuery();
+            while (rs.next()){
+                Flyinfo f=new Flyinfo();
+                f.setAirid(rs.getString("a"));
+                f.setScity(rs.getString("b"));
+                f.setEcity(rs.getString("c"));
+                f.setDing(rs.getInt("bu"));
+                f.setStarttime(rs.getTimestamp("starttime"));
+                list.add(f);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    @Override
+    public int delbuy(Integer id) {
+        String sql="delete from buy where id=?";
+        Object[] pram={id};
+        return ExecuteUpdate(sql,pram);
+    }
 }

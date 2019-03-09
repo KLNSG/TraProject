@@ -10,6 +10,7 @@ import java.util.List;
  */
 public interface UserInfoDao {
     //查询
+    List<User> select(Integer id);
 
     int updateuser(User user);
 
@@ -17,8 +18,7 @@ public interface UserInfoDao {
 
     int addT(User user);
 
-    List<UserInfo> selectAll();
-
+    List<UserInfo> selectAll(Integer id);
 
     //增加
     int add(UserInfo userinfo);

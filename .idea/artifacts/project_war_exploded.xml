@@ -10,6 +10,8 @@
           <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.54" />
           <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.43" />
           <element id="library" level="project" name="Maven: javax.servlet.jsp.jstl:jstl-api:1.2" />
+          <element id="library" level="project" name="Maven: commons-fileupload:commons-fileupload:1.2.2" />
+          <element id="library" level="project" name="Maven: commons-io:commons-io:2.4" />
           <element id="library" level="project" name="Maven: org.glassfish.web:jstl-impl:1.2" />
         </element>
       </element>

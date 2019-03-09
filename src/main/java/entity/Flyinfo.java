@@ -9,12 +9,39 @@ import java.sql.Timestamp;
 public class Flyinfo {
     public String airid;
     public Integer startcity;
+    public String scity;
     public Timestamp starttime;
     public String stime;
     public Integer endcity;
+    public String ecity;
     public Timestamp endtime;
     public String etime;
     public Integer price;
+    public Integer ding;
+
+    public Integer getDing() {
+        return ding;
+    }
+
+    public void setDing(Integer ding) {
+        this.ding = ding;
+    }
+
+    public String getScity() {
+        return scity;
+    }
+
+    public void setScity(String scity) {
+        this.scity = scity;
+    }
+
+    public String getEcity() {
+        return ecity;
+    }
+
+    public void setEcity(String ecity) {
+        this.ecity = ecity;
+    }
 
     public String getStime() {
         return stime;
