@@ -16,7 +16,7 @@ public interface UserInfoDao {
 
     int Login(User user);
 
-    int addT(User user);
+    int addT(User user,Integer id);
 
     List<UserInfo> selectAll(Integer id);
 
@@ -25,5 +25,9 @@ public interface UserInfoDao {
 
     //修改
     int update(UserInfo userinfo);
+
+    int del(Integer id);
+
+    int deluser(Integer id);
 
 }

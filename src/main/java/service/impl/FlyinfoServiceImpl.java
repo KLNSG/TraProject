@@ -3,6 +3,7 @@ package service.impl;
 import dao.FlyinfoDao;
 import dao.impl.FlyinfoDaoImpl;
 import entity.Flyinfo;
+import entity.UserInfo;
 import service.FlyinfoService;
 
 import java.util.ArrayList;
@@ -44,12 +45,9 @@ public class FlyinfoServiceImpl implements FlyinfoService {
         for (Flyinfo f:list) {
             starttime=String.valueOf(f.getStarttime());
             /*System.out.println(starttime);*/
-            starttime=starttime.substring(11,16);
+            starttime=starttime.substring(0,16);
             endtime=String.valueOf(f.getEndtime());
-            endtime=endtime.substring(11,16);
-            if ((endtime.substring(0,1)).equals("0")){
-                endtime+="(次日)";
-            }
+            endtime=endtime.substring(0,16);
             f.setStime(starttime);
             f.setEtime(endtime);
         }
@@ -57,7 +55,7 @@ public class FlyinfoServiceImpl implements FlyinfoService {
     }
 
     @Override
-    public List<Flyinfo> selectbytime(String start) {
+    public List<Flyinfo> selectbytime(String start,String startcity, String endcity) {
         String str="";
         String starttime="";
         String endtime="";
@@ -73,7 +71,7 @@ public class FlyinfoServiceImpl implements FlyinfoService {
         }
         str=Moth+"-"+Day;
         List<Flyinfo> list=new ArrayList<>();
-        list=f.selectbytime(str);
+        list=f.selectbytime(str,startcity,endcity);
         for (Flyinfo f:list) {
             starttime=String.valueOf(f.getStarttime());
             starttime=starttime.substring(11,16);
@@ -120,5 +118,10 @@ public class FlyinfoServiceImpl implements FlyinfoService {
     @Override
     public int delbuy(Integer id) {
         return f.delbuy(id);
+    }
+
+    @Override
+    public int addflyinfo(Flyinfo flyinfo) {
+        return f.addflyinfo(flyinfo);
     }
 }

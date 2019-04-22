@@ -7,7 +7,7 @@ import java.sql.Timestamp;
  * Created by Administrator on 2019/3/4/004.
  */
 public class Flyinfo {
-    public String airid;
+    public  String airid;
     public Integer startcity;
     public String scity;
     public Timestamp starttime;
@@ -18,6 +18,18 @@ public class Flyinfo {
     public String etime;
     public Integer price;
     public Integer ding;
+
+    public Flyinfo() {
+    }
+
+    public Flyinfo(String airid, Integer startcity, String stime, Integer endcity, String etime, Integer price) {
+        this.airid = airid;
+        this.startcity = startcity;
+        this.stime = stime;
+        this.endcity = endcity;
+        this.etime = etime;
+        this.price = price;
+    }
 
     public Integer getDing() {
         return ding;

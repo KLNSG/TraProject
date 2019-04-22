@@ -62,6 +62,8 @@ public class FlyinfoDaoImpl extends BaseDao implements FlyinfoDao {
                 Flyinfo f=new Flyinfo();
                 f.setAirid(rs.getString("airID"));
                 f.setStarttime(rs.getTimestamp("starttime"));
+                f.setScity(rs.getString("start"));
+                f.setEcity(rs.getString("end"));
                 f.setEndtime(rs.getTimestamp("endtime"));
                 f.setPrice(rs.getInt("price"));
                 list.add(f);
@@ -73,18 +75,25 @@ public class FlyinfoDaoImpl extends BaseDao implements FlyinfoDao {
     }
 
     @Override
-    public List<Flyinfo> selectbytime(String start) {
+    public List<Flyinfo> selectbytime(String start,String startcity, String endcity) {
         List<Flyinfo> list=new ArrayList<>();
         con=getCon();
         try {
             String sql = "select airID,a.cityname as start,starttime,b.cityname as end,endtime,price from airplane inner join city as a on\n" +
-                    " airplane.startcity=a.cityid inner join city as b on  airplane.endcity=b.cityid";
+                    " airplane.startcity=a.cityid inner join city as b on  airplane.endcity=b.cityid where 1=1 ";
             if (start != "") {
-                sql += " where starttime like ?";
+                sql += " and starttime like ?";
+            }
+            if (startcity != "" && endcity != "") {
+                sql += " and a.cityname=? and b.cityname=?";
             }
             pstat=con.prepareStatement(sql);
             if (start != "") {
                 pstat.setString(1, "%"+start+"%");
+            }
+            if (startcity != "" && endcity != "") {
+                pstat.setString(2, startcity);
+                pstat.setString(3, endcity);
             }
             rs=pstat.executeQuery();
             while (rs.next()){
@@ -141,6 +150,13 @@ public class FlyinfoDaoImpl extends BaseDao implements FlyinfoDao {
     public int delbuy(Integer id) {
         String sql="delete from buy where id=?";
         Object[] pram={id};
+        return ExecuteUpdate(sql,pram);
+    }
+
+    @Override
+    public int addflyinfo(Flyinfo flyinfo) {
+        String sql="insert into airplane values(?,?,?,?,?,?)";
+        Object[] pram={flyinfo.getAirid(),flyinfo.getStartcity(),flyinfo.getStime(),flyinfo.getEndcity(),flyinfo.getEtime(),flyinfo.getPrice()};
         return ExecuteUpdate(sql,pram);
     }
 }

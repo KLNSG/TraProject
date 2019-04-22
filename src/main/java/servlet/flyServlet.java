@@ -5,6 +5,7 @@ import entity.Flyinfo;
 import entity.UserInfo;
 import service.FlyinfoService;
 import service.impl.FlyinfoServiceImpl;
+import sun.rmi.log.LogInputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,7 +28,6 @@ public class flyServlet extends HttpServlet {
         response.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=UTF-8");
         String type=request.getParameter("type");
-        System.out.println(type);
         if (type==null||type.equals("sel")){
             sel(request,response);
         }else {
@@ -46,6 +46,12 @@ public class flyServlet extends HttpServlet {
                     break;
                 case "del":
                     del(request,response);
+                    break;
+                case "sel":
+                    sel(request,response);
+                    break;
+                case "add":
+                    add(request,response);
                     break;
                 default:
                     System.out.println("类型出错");
@@ -66,11 +72,21 @@ public class flyServlet extends HttpServlet {
             out.flush();
             out.close();
         }else {*/
+        if (Integer.valueOf(id)!=0) {
             List<Flyinfo> list = fly.selcai(Integer.valueOf(id));
-            String str = JSON.toJSONString(list);
+               String str = JSON.toJSONString(list);
+               out.write(str);
+               out.flush();
+               out.close();
+        }else {
+            List<Flyinfo> list=new ArrayList<>();
+            Flyinfo f=new Flyinfo();
+            list.add(f);
+            String str =JSON.toJSONString(list);
             out.write(str);
             out.flush();
             out.close();
+        }
         /*}*/
     }
 
@@ -91,26 +107,35 @@ public class flyServlet extends HttpServlet {
         String str="";
         Integer userid=Integer.valueOf(request.getParameter("userid"));
             String airid=request.getParameter("airid");
-            int i=fly.buyfly(userid,airid);
-            if (i!=0){
-                str="true";
+            if (airid=="0" ||userid==0){
+                str = "false";
                 out.write(str);
                 out.flush();
                 out.close();
             }else {
-                str="false";
-                out.write(str);
-                out.flush();
-                out.close();
+                int i = fly.buyfly(userid, airid);
+                if (i != 0) {
+                    str = "true";
+                    out.write(str);
+                    out.flush();
+                    out.close();
+                } else {
+                    str = "false";
+                    out.write(str);
+                    out.flush();
+                    out.close();
+                }
             }
     }
 
     public void selbytime(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
           PrintWriter out=response.getWriter();
           String nowday=request.getParameter("nowday");
+        String start=request.getParameter("start");
+        String end=request.getParameter("end");
           List<Flyinfo> list=new ArrayList<>();
           nowday=nowday.substring(0,4);
-          list=fly.selectbytime(nowday);
+          list=fly.selectbytime(nowday,start,end);
           String str= JSON.toJSONString(list);
           out.write(str);
           out.flush();
@@ -119,10 +144,8 @@ public class flyServlet extends HttpServlet {
 
     public void sel(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out=response.getWriter();
-        String start=request.getParameter("start");
-           String end=request.getParameter("end");
         List<Flyinfo> list=new ArrayList<>();
-           list=fly.selectbycity(start,end);
+           list=fly.selectbycity("","");
            String str= JSON.toJSONString(list);
            out.write(str);
            out.flush();
@@ -131,8 +154,29 @@ public class flyServlet extends HttpServlet {
 
     public void del(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String buyid=request.getParameter("buyid");
-        int i=fly.delbuy(Integer.valueOf(buyid));
+        PrintWriter out = response.getWriter();
+        if (buyid=="0"){
+            out.write(String.valueOf(0));
+            out.flush();
+            out.close();
+        }else {
+            int i = fly.delbuy(Integer.valueOf(buyid));
+            out.write(String.valueOf(i));
+            out.flush();
+            out.close();
+        }
+    }
+
+    public void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out=response.getWriter();
+        String airid=request.getParameter("airid");
+        String scity=request.getParameter("scity");
+        String stime=request.getParameter("stime");
+        String ecity=request.getParameter("ecity");
+        String etime=request.getParameter("etime");
+        String price=request.getParameter("price");
+        Flyinfo flyinfo=new Flyinfo(airid,Integer.valueOf(scity),stime,Integer.valueOf(ecity),etime,Integer.valueOf(price));
+        int i=fly.addflyinfo(flyinfo);
         out.write(String.valueOf(i));
         out.flush();
         out.close();

@@ -12,11 +12,13 @@ public interface FlyinfoDao {
 
        List<Flyinfo> selectbycity(String start,String end);
 
-       List<Flyinfo> selectbytime(String start);
+       List<Flyinfo> selectbytime(String start,String startcity, String endcity);
 
        int buyfly(int userid,String airid);
 
        List<Flyinfo> selding(Integer id);
 
        int delbuy(Integer id);
+
+       int addflyinfo(Flyinfo flyinfo);
 }

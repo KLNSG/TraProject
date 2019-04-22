@@ -26,9 +26,87 @@
     <%--<script src="js/modernizr.custom.js"></script>--%>
     <script src="js/jquery-1.12.4.js"></script>
     <script type="text/javascript" src="js/DIV.js"></script>
+    <script type="text/javascript" src="js/Admin.js"></script>
     <!-- /js files -->
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+<div id="admin" style="z-index: -10;opacity: 0;position: absolute;width: 100%;height: 120%;background-color: black">
+    <div id="up" style="margin-top: 270px;background-color: white;height: 2px;width: 0"></div>
+    <div id="cen" style="opacity: 0;color : rgba(255,255,255,0.9);padding: 35px 0px;width: 250px;height: 150px;margin: 0px auto;font-size: 50px">管理者页面</div>
+    <div id="do" style="margin-left: 100%;background-color: white;height: 2px;width: 70%"></div>
+    <div id="addbtn" class="addbtn"></div>
+    <div id="addfly" class="addfly"></div>
+    <div id="userlie" class="userlie"></div>
+    <div id="goback" class="goback"></div>
+    <div id="userlietab" style="display: none;background-color: rgba(255,255,255,0.7);width: 70%;margin-left: 15%;margin-top: 150px;height: 550px;">
+        <div id="shang" style="overflow-x: auto;overflow-y: scroll;height: 470px;width: 100%;">
+            <table id="allinfo" style="opacity: 0;font-weight: 200;font-size: 20px;position: fixed;height: 470px;text-align: center">
+                <tr><td colspan="2"></td></tr>
+                <tr><td>年龄:</td><td><input onkeyup="this.value=(this.value.replace(/\D/g,''))" id="agee" style="width: 120px" type="text"></td></tr>
+                <tr><td>性别:</td><td><input id="sexx" style="width: 120px" type="text"></td></tr>
+                <tr><td>电话:</td><td><input id="phonee" style="width: 120px" type="text"></td></tr>
+                <tr><td>身份证号:</td><td><input id="cardd" style="width: 120px" type="text"></td></tr>
+                <tr><td>地址:</td><td><input id="addresss" style="width: 120px" type="text"></td></tr>
+                <tr><td>邮箱:</td><td><input id="emaill" style="width: 120px" type="email"></td></tr>
+                <tr><td colspan="2"><input id="commit" type="button" value="完善信息"></td></tr>
+            </table>
+            <table id="title" style="height: 70px;width: 150%;text-align: center">
+                <tr>
+                    <td style="font-weight: 400;height: 40px;font-size: 30px" colspan="8">用户信息表</td>
+                </tr>
+                <tr style="height: 30px;font-size: 25px">
+                    <td style="width: 6%">编号</td>
+                    <td style="width: 8%">用户名</td>
+                    <td style="width: 6%">年龄</td>
+                    <td style="width: 6%">性别</td>
+                    <td style="width: 12%">电话</td>
+                    <td style="width: 12%">身份证号</td>
+                    <td style="width: 12%">地址</td>
+                    <td style="width: 12%">邮箱</td>
+                </tr>
+            </table>
+            <table id="usertab" style="height: 40px;width: 150%;text-align: center">
+                <tr></tr>
+            </table>
+        </div>
+        <div style="padding: 15px 0px;text-align: center;width: 100%;height: 80px;background-color: darkturquoise">
+            <input class="usebtn" id="addinfo" type="button" value="增加">
+            <input class="usebtn" id="delinfo" type="button" value="删除">
+            <input class="usebtn" id="selbyname" type="button" value="查询">
+            <input class="usebtn" id="bb" type="button" value="返回">
+        </div>
+    </div>
+    <div id="addflyinfo" style="display: none;background-color: rgba(255,255,255,0.7);width: 70%;margin-left: 15%;margin-top: 150px;height: 570px;">
+        <div style="overflow-x: auto;overflow-y: scroll;height: 70px;width: 70%"><table style="width: 70%;font-weight: 200;font-size: 20px;position: fixed;height: 70px;text-align: center"><tr><td colspan="6" style="font-size: 45px">航班信息</td></tr><tr><td>航班号</td><td>出发地</td><td>出发时间</td><td>目的地</td><td>抵达时间</td><td>价格</td></tr></table></div>
+        <div style="overflow: scroll;width: 100%;margin-top: 20px;height: 400px;/*border: solid red 1px*/">
+            <table id="flyinfo1" style="text-align: center;width: 100%;height: 400px">
+                <tr></tr>
+            </table>
+        </div>
+        <div id="scanner" style="/*border: 1px red solid;*/height: 80px">
+            <input id="flyid" style="font-size: 20px;margin-left: 1%;width: 15%;height: 50px;margin-top: 15px" type="text">
+            <select id="ss" name="select" style="font-size: 20px;margin-left: 4%;width: 7%;height: 50px;margin-top: 15px">
+            </select>
+            <input id="stime" style="font-size: 20px;margin-left: 5%;width: 18%;height: 50px;margin-top: 15px" type="text">
+            <select id="ee" name="select2" style="font-size: 20px;margin-left: 6%;width: 7%;height: 50px;margin-top: 15px"></select>
+            <input id="etime" style="font-size: 20px;margin-left: 6%;width: 18%;height: 50px;margin-top: 15px" type="text">
+            <input id="price" style="font-size: 20px;margin-left: 1%;width: 10%;height: 50px;margin-top: 15px" type="text">
+        </div>
+        <div style="width: 100%;text-align: center"><input id="addfly1" style="width: 120px;height: 60px;font-size: 35px;margin-top: 10px;" value="增加" type="button"><input id="callback" style="margin-top: 10px;width: 120px;height: 60px;font-size: 35px;margin-left: 40px" value="返回" type="button"></div>
+    </div>
+    <div id="city" style="overflow-y: scroll;display: none;background-color: rgba(255,255,255,0.7);width: 60%;margin-left: 20%;margin-top: 150px;height: 570px;">
+
+    </div><input id="callback1" style="display: none;margin-top: 10px;width: 120px;height: 60px;font-size: 35px;margin-left:45%" value="返回" type="button">
+</div>
+<div id="mess" class="mess"></div>
+<div id="message">
+    <div id="messtop">操作确认</div>
+    <div id="ce" style="color: black;padding: 15px 15px;text-align: center;height: 100px;width: 400px"></div>
+    <div id="messbott">
+        <input class="bb" value="确定" type="button">
+        <input style="margin-left: 30px;" value="取消" class="bb" type="button">
+    </div>
+</div>
 <div class="navbar-wrapper">
     <div class="container">
         <nav class="navbar navbar-inverse navbar-static-top cl-effect-20">
@@ -40,17 +118,17 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="index.html">旅行家</a>
+                    <a style="font-size: 45px" class="navbar-brand" href="index.html">旅行家</a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse navbar-right">
                     <ul class="nav navbar-nav">
                         <%--<li><a href="#"><span data-hover="首页">首页</span></a></li>--%>
                         <li><a style="cursor: pointer;" id="Login"><span data-hover="登录">登录</span></a></li>
-                        <li><a href="#service"><span data-hover="目的地">目的地</span></a></li>
-                        <li><a href="#events"><span data-hover="机票">机票</span></a></li>
-                        <li><a href="#gallery"><span data-hover="火车票">火车票</span></a></li>
-                        <li><a href="#testimonials"><span data-hover="旅游百货">旅游百货</span></a></li>
-                        <li><a href="#contact"><span data-hover="我的订单">我的订单</span></a></li>
+                        <li><a class="aa"><span data-hover="目的地">目的地</span></a></li>
+                        <li><a class="aa"><span data-hover="机票">机票</span></a></li>
+                        <%--<li><a href="#gallery"><span data-hover="火车票">火车票</span></a></li>--%>
+                        <li><a class="aa"><span data-hover="旅游百货">旅游百货</span></a></li>
+                        <li><a class="aa"><span data-hover="我的订单">我的订单</span></a></li>
                             <li id="q">
                                 <a id="My" <%--href="#"--%>></a>
                                 <div id="user" class="ub">修改密码</div>
@@ -144,7 +222,7 @@
             <table id="TTT">
                 <tr>
                     <td><h1>年龄:</h1></td>
-                    <td><input id="age" class="user" type="text"></td>
+                    <td><input onkeyup="this.value=(this.value.replace(/\D/g,''))" id="age" class="user" type="text"></td>
                 </tr>
                 <tr>
                     <td><h1>性别:</h1></td>
@@ -185,23 +263,23 @@
         <form>
             <table <%--style="margin: auto"--%>>
                 <tr>
-                    <td style="width: 200px;height: 500px">
+                    <td style="cursor: default;;width: 200px;height: 500px">
                         <input id="one" class="start" type="button" value="出发地">
                         <div class="TT" id="zuo">
-                            <div class="zuonei">
+                            <%--<div class="zuonei">
                                 <h2><strong>北京</strong></h2>
-                            </div>
+                            </div>--%>
                         </div>
                     </td>
                     <td>
-                        <input id="three" style="margin-left: 150px" class="start" type="button" value="GO!">
+                        <input id="three" style="margin-left: 80px" class="start" type="button" value="GO!">
                     </td>
                     <td>
                         <input id="two" style="margin-left:50px" class="start" type="button" value="目的地">
                         <div class="TT" id="you">
-                            <div class="zuonei">
+                            <%--<div class="zuonei">
                                 <h2><strong>南京</strong></h2>
-                            </div>
+                            </div>--%>
                         </div>
                     </td>
                 </tr>
@@ -231,13 +309,13 @@
             </table>
         </div>
     <div class="event-info">
-                    <table id="flyinfo" class="fly2" <%--style="border: solid 1px red"--%>>
-                        <tr style="color: rgba(255,255,255,0.7);height: 50px">
+                    <table style="cursor: default;" id="flyinfo" class="fly2" <%--style="border: solid 1px red"--%>>
+                        <tr style="cursor: default;;color: rgba(255,255,255,0.7);height: 50px">
                             <td></td>
                             <td colspan="2"><h1><strong><span id="go">出发地</span><input id="zhong" style="border: hidden;background-color: transparent" type="button" value=">>>>"><span id="end">目的地</span></strong></h1></td>
                             <td></td>
                         </tr>
-                        <tr style="color: rgba(255,255,255,0.7);height: 50px">
+                        <tr style="cursor: default;;color: rgba(255,255,255,0.7);height: 50px">
                             <td><h1><strong>航班信息</strong></h1></td>
                             <td><h1><strong>出发时间</strong></h1></td>
                             <td><h1><strong>抵达时间</strong></h1></td>
@@ -254,27 +332,28 @@
 </section>
 <!-- /Events -->
 <!-- Gallery Section -->
-<section class="our-testimonials slideanim" id="testimonials">
+<%--<section class="our-testimonials slideanim" id="testimonials">
     <h3 class="text-center slideanim">火车票购买</h3>
     <p class="text-center slideanim">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-    <div class="fly1 slideanim" <%--style="border: 1px red solid"--%>>
+    <div class="fly1 slideanim" &lt;%&ndash;style="border: 1px red solid"&ndash;%&gt;>
 
     </div>
-</section>
+</section>--%>
 <!-- /Gallery Section -->
 <!-- Testimonials -->
-<section class="our-gallery" id="gallery">
-    <h3 class="text-center slideanim">旅游景点</h3>
-    <p class="text-center slideanim">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-    <div class="container">
-        <img src="images/gallery-img1.jpg" data-darkbox="images/gallery-img1-1.jpg" data-darkbox-description="<b>Lorem Ipsum</b><br>Lorem ipsum dolor sit amet" class="img-responsive slideanim">
-        <img src="images/gallery-img2.jpg" data-darkbox="images/gallery-img2-2.jpg" data-darkbox-description="<b>Lorem Ipsum</b><br>Lorem ipsum dolor sit amet" class="img-responsive slideanim">
-        <img src="images/gallery-img3.jpg" data-darkbox="images/gallery-img3-3.jpg" data-darkbox-description="<b>Lorem Ipsum</b><br>Lorem ipsum dolor sit amet" class="img-responsive slideanim">
-        <img src="images/gallery-img4.jpg" data-darkbox="images/gallery-img4-4.jpg" data-darkbox-description="<b>Lorem Ipsum</b><br>Lorem ipsum dolor sit amet" class="img-responsive slideanim">
-        <img src="images/gallery-img5.jpg" data-darkbox="images/gallery-img5-5.jpg" data-darkbox-description="<b>Lorem Ipsum</b><br>Lorem ipsum dolor sit amet" class="img-responsive slideanim">
-        <img src="images/gallery-img6.jpg" data-darkbox="images/gallery-img6-6.jpg" data-darkbox-description="<b>Lorem Ipsum</b><br>Lorem ipsum dolor sit amet" class="img-responsive slideanim">
-        <img src="images/gallery-img7.jpg" data-darkbox="images/gallery-img7-7.jpg" data-darkbox-description="<b>Lorem Ipsum</b><br>Lorem ipsum dolor sit amet" class="img-responsive slideanim">
-        <img src="images/gallery-img8.jpg" data-darkbox="images/gallery-img8-8.jpg" data-darkbox-description="<b>Lorem Ipsum</b><br>Lorem ipsum dolor sit amet" class="img-responsive slideanim">
+<section style="height: 900px;padding: 180px 0px" class="our-gallery" id="gallery">
+    <div class="fengsu">
+        <div class="city mei"><div id="nei_mei" class="nei"><label>美食</label></div></div>
+        <div class="city jian"><div id="nei_jian" class="nei"><label>建筑</label></div></div>
+        <div class="city te"><div id="nei_te" class="nei"><label>特色</label></div></div>
+        <div class="wenzi" style="margin-left: 170px">
+            <div id="wz" class="meiwen"></div>
+            <div id="wj" style="margin-top: 20px;text-align: left;margin-left: 20px;width: 350px"></div>
+        </div>
+        <img class="meishiimg" src="" alt="暂无目的地">
+        <div style="z-index: -2;opacity: 0;margin-top:110px;position: absolute;margin-left: 150px;border: 1px red solid;height: 400px;width: 900px" id="video">
+
+        </div>
     </div>
 </section>
 <!-- Testimonials -->
@@ -290,40 +369,43 @@
             </div>
             <div id="caidan">
                 <input id="air" class="cai" type="button" value="飞机订单"><br/>
-                <input class="cai" type="button" value="火车订单"><br/>
-                <input class="cai" type="button" value="关于我们">
+                <input class="cai" type="button" value="二维码"><br/>
+                <input id="aboutwe" class="cai" type="button" value="关于我们">
             </div>
             <div id="userimg">
-        <img src="" class="img" alt="" >
-                <label id="name1"></label>
+        <img src="" class="img" alt="该用户无头像" >
+                <label id="name1">无人登陆</label>
             </div>
             <table id="Myinfoshow">
                 <tr><td>昵称：</td><td><label id="na"></label></td></tr>
-                <tr><td>年龄：</td><td><label id="ag"></label></td></tr>
-                <tr><td>性别：</td><td><label id="se"></label></td></tr>
-                <tr><td>电话：</td><td><label id="ph"></label></td></tr>
-                <tr><td>身份证号：</td><td><label id="card"></label></td></tr>
-                <tr><td>联系地址：</td><td><label id="ad"></label></td></tr>
-                <tr><td>邮箱：</td><td><label id="em"></label></td></tr>
+                <tr><td>年龄：</td><td><input onkeyup="this.value=(this.value.replace(/\D/g,''))" id="ag1" class="userinfotxt" type="text"><label id="ag"></label></td></tr>
+                <tr><td>性别：</td><td><input id="se1" class="userinfotxt" type="text"><label id="se"></label></td></tr>
+                <tr><td>电话：</td><td><input id="ph1" class="userinfotxt" type="text"><label id="ph"></label></td></tr>
+                <tr><td>身份证号：</td><td><input id="card1" class="userinfotxt" type="text"><label id="card"></label></td></tr>
+                <tr><td>联系地址：</td><td><input id="ad1" class="userinfotxt" type="text"><label id="ad"></label></td></tr>
+                <tr><td>邮箱：</td><td><input id="em1" class="userinfotxt" type="email"><label id="em"></label></td></tr>
+                <tr style="text-align: right">
+                    <td colspan="2"><input value="编辑资料" class="updatebtn" type="button"></td>
+                </tr>
             </table>
         </div>
-
     </div>
+    <a href="#0" class="cd-top"></a>
 </section>
 <!-- /Contact Section -->
 <!-- Footer Section -->
 <section class="footer">
-    <h2 class="text-center">THANKS FOR VISITING US</h2>
+    <h2 class="text-center">感谢各位的观看</h2>
     <hr>
     <div class="container">
         <div class="row">
             <div class="col-md-4 footer-left">
-                <h4>Contact Information</h4>
+                <h4>我们的联系方式</h4>
                 <div class="contact-info">
                     <div class="address">
                         <i class="glyphicon glyphicon-globe"></i>
                         <p class="p3">77 Jack Street</p>
-                        <p class="p4">Chicago, USA</p>
+                        <p class="p4">北京公主坟, 中国</p>
                     </div>
                     <div class="phone">
                         <i class="glyphicon glyphicon-phone-alt"></i>
@@ -338,31 +420,34 @@
                 </div>
             </div><!-- col -->
             <div class="col-md-4 footer-center">
-                <h4>Newsletter</h4>
-                <p>Register to our newsletter and be updated with the latests information regarding our services, offers and much more.</p>
+                <h4>个人感想</h4>
+                <p>虽然完全不知道为什么要做这个东西出来，但总而言之把代码砌出来了，做的不好看官不要嫌弃</p>
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="inputEmail1" class="col-lg-4 control-label"></label>
                         <div class="col-lg-10">
-                            <input type="email" class="form-control" id="inputEmail1" placeholder="Email" required>
+                            <input type="email" class="form-control" id="inputEmail1" placeholder="没有用上的文本框" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="text1" class="col-lg-4 control-label"></label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control" id="text1" placeholder="Your Name" required>
+                            <input type="text" class="form-control" id="text1" placeholder="还舍不得删" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-lg-10">
-                            <button type="submit" class="btn-outline">Sign in</button>
+                            <button type="submit" class="btn-outline">于是就留下了</button>
                         </div>
                     </div>
                 </form><!-- form -->
             </div><!-- col -->
             <div class="col-md-4 footer-right">
-                <h4>Support Us</h4>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                <h4>关于我们</h4>
+                <p>吕欣：</p>
+                <p>李辉：</p>
+                <p>李依波：</p>
+                <p>马超：</p>
                 <ul class="social-icons2">
                     <li><a href="#"><i class="fa fa-facebook"></i></a></li>
                     <li><a href="#"><i class="fa fa-twitter"></i></a></li>
@@ -379,7 +464,7 @@
 </section>
 <!-- /Footer Section -->
 <!-- Back To Top -->
-<a href="#0" class="cd-top">Top</a>
+
 <!-- /Back To Top -->
 
 <!-- js files -->

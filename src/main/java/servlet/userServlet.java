@@ -40,6 +40,9 @@ public class userServlet extends HttpServlet {
                      case "add":
                          insert1(request,response);
                          break;
+                     case "add2":
+                         insert2(request,response);
+                         break;
                      case "Log":
                          Log(request,response);
                          break;
@@ -58,10 +61,117 @@ public class userServlet extends HttpServlet {
                      case "userka":
                          userka(request,response);
                          break;
+                     case "updateuserinfo":
+                         upduserinfo(request,response);
+                         break;
+                     case "selinfo":
+                         selinfo(request,response);
+                         break;
+                     case "delinfo":
+                         del(request,response);
+                         break;
+                     case "deluser":
+                         deluser(request,response);
+                         break;
                      default:
                          System.out.println("类型出错");
                          break;
                  }
+    }
+
+    public void deluser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        PrintWriter out=response.getWriter();
+        String id=request.getParameter("delid");
+        int i=us.deluser(Integer.valueOf(id));
+        String isok="false";
+        if (i!=0){
+            isok="true";
+            out.write(isok);
+            out.flush();
+            out.close();
+        }else {
+            isok="false";
+            out.write(isok);
+            out.flush();
+            out.close();
+        }
+
+    }
+
+    public void del(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String isok="";
+        PrintWriter out=response.getWriter();
+        String id=request.getParameter("delid");
+        int i=us.del(Integer.valueOf(id));
+        if (i!=0){
+            isok="true";
+            out.write(isok);
+            out.flush();
+            out.close();
+        }else {
+            isok="false";
+            out.write(isok);
+            out.flush();
+            out.close();
+        }
+    }
+
+    public void selinfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<UserInfo> ui=us.selectAll(null);
+        List<User> u=us.select(null);
+        int index=u.size()-ui.size();
+        for (int i=0;i<index;i++){
+                 ui.add(i,new UserInfo(0,"空",0,"空","空","空","空","空"));
+        }
+        for (int i=0;i<u.size();i++){
+            for (int j=0;j<ui.size();j++) {
+                if (u.get(i).getUserid() == ui.get(j).getUserid()) {
+                    ui.add(i,ui.get(j));
+                    ui.remove(j+1);
+                }
+            }
+        }
+        for (int i=0;i<u.size();i++){
+            ui.get(i).setUserid(u.get(i).getUserid());
+            ui.get(i).setUsername(u.get(i).getUsername());
+        }
+        String str=JSON.toJSONString(ui);
+        PrintWriter out=response.getWriter();
+        out.write(str);
+        out.flush();
+        out.close();
+    }
+
+    public void upduserinfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String isok="";
+        PrintWriter out=response.getWriter();
+        String userid=request.getParameter("userid");
+         String userage=request.getParameter("userage");
+        String usersex=request.getParameter("usersex");
+        String userphone=request.getParameter("userphone");
+        String usercardid=request.getParameter("usercardid");
+        String useraddress=request.getParameter("useraddress");
+        String email=request.getParameter("email");
+        UserInfo s=new UserInfo();
+        s.setUserid(Integer.valueOf(userid));
+        s.setUserage(Integer.valueOf(userage));
+        s.setUsersex(usersex);
+        s.setUserphone(userphone);
+        s.setUsercardid(usercardid);
+        s.setUseraddress(useraddress);
+        s.setEmail(email);
+        int i=us.update(s);
+        if (i!=0){
+            isok="true";
+            out.write(isok);
+            out.flush();
+            out.close();
+        }else {
+            isok="false";
+            out.write(isok);
+            out.flush();
+            out.close();
+        }
     }
 
     public void userka(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -188,7 +298,7 @@ public class userServlet extends HttpServlet {
         user.setUserpwd(String.valueOf(pwd));
         user.setUserimage(String.valueOf(filename));
         String  isok="";
-        int i=us.addT(user);
+        int i=us.addT(user,null);
              if (i!=0){
                  isok="true";
                  out.write(isok);
@@ -202,16 +312,41 @@ public class userServlet extends HttpServlet {
              }
     }
 
+    public void insert2(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        PrintWriter out=response.getWriter();
+        String userid=request.getParameter("userid");
+        String name=request.getParameter("name");
+        String pwd=request.getParameter("pwd");
+        User user=new User();
+        user.setUsername(String.valueOf(userid));
+        user.setUserpwd(String.valueOf(pwd));
+        String  isok="";
+        int i=us.addT(user,Integer.valueOf(userid));
+        if (i!=0){
+            isok="true";
+            out.write(isok);
+            out.flush();
+            out.close();
+        }else {
+            isok="false";
+            out.write(isok);
+            out.flush();
+            out.close();
+        }
+    }
+
     private static Map getFilePath2(HttpServletRequest request) {
         // 上传配置
-        int memory_threshold = 1024 * 1024 * 3;  // 3MB
-        int max_file_size = 1024 * 1024 * 40; // 40MB
-        int max_request_size = 1024 * 1024 * 50; // 50MB
+        //最终返回map对象遍历
+        int memory_threshold = 1024 * 1024 * 3;  // 代表3MB
+        int max_file_size = 1024 * 1024 * 40; // 代表40MB
+        int max_request_size = 1024 * 1024 * 50; // 代表50MB
 
 
         // 配置上传参数
         DiskFileItemFactory factory = new DiskFileItemFactory();
         // 设置内存临界值 - 超过后将产生临时文件并存储于临时目录中
+        //此为新类，不要追究
         factory.setSizeThreshold(memory_threshold);
         // 设置临时存储目录
         factory.setRepository(new File(System.getProperty("java.io.tmpdir")));

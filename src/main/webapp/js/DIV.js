@@ -2,8 +2,11 @@ $(function () {
     var color
     var color1
     var str     //按钮文字
-    var userid  //登录的用户ID
+    var userid=0//登录的用户ID
     var username
+    var cityid=0
+    var airid=0
+    var buyid=0
 
     var cells = document.getElementById('time').getElementsByTagName('button');
     var clen = cells.length;
@@ -221,6 +224,80 @@ $(function () {
          var day=time.substring(2,4)
          time_ajax2(moth,Number(day)+Number(7))*!/
     }*/
+    /*var jj=false
+    $(".bb").click(function () {
+        if($(this).val()=="确定"){
+            jj=true
+        }
+    })*/
+    function messageexit() {
+        $("#message").animate({
+            "opacity": "0",
+            "width": "0px",
+            "height": "0px"
+        }, 500,function () {
+            $("#message").css("display","none").css("z-index","-999")
+        })
+    }
+    $(".bb").click(function () {
+        if ($(this).parent().parent().css("opacity")!=0) {
+            if ($(this).val() == "取消") {
+                airid=0
+                $("#mess").text()
+                messageexit()
+            }else if ($(this).val()=="确定"){
+                if ($("#ce").text()!=null && $("#ce").text()!=""){
+                    if ($("#ce").text().indexOf("购买")>0){
+                        isbuy()
+                        ajax_selcai("buy")
+                        messageexit()
+                    }else if ($("#ce").text().indexOf("取消")>0){
+                        ajax_delFlyinfo(buyid)
+                        messageexit()
+                    }else {
+                        switch ($("#ce").text()) {
+                            case "您确定要退出吗":
+                                exit()
+                                messageexit()
+                                break;
+                            default :
+                                mess("系统出错");
+                        }
+                    }
+                }else {
+                    mess("系统出错")
+                }
+            }
+        }
+    })
+    function mess(s,t) {
+        if (t=="alert") {
+            $("#mess").text(s)
+            $("#mess").css("z-index","500")
+            $("#mess").animate({
+                "top": "100px",
+                "opacity": "1",
+                "width": "100%",
+            }, 500, function () {
+                setTimeout(function () {
+                    $("#mess").animate({
+                        "opacity": "0",
+                        "top": "0px"
+                    }, 500,function () {
+                        $("#mess").css("top","100px").css("width","0px")
+                    })
+                }, 2000)
+            })
+        }else  if(t=="con"){
+            $("#ce").text(s)
+            $("#message").css("display","block").css("z-index","999")
+            $("#message").animate({
+                "width": "400px",
+                "height":"200px",
+                "opacity": "1"
+            },"slow")
+        }
+    }
 
     function ajax_adduserinfo() {
         $.ajax({
@@ -241,13 +318,34 @@ $(function () {
           })
         function ss(data) {
            if (data!=0){
-               alert("添加成功")
+               mess("添加成功","alert")
                $(".f").hide(500)
            }else if (data==0){
-               alert("您已添加过信息了")
+               mess("您已添加过信息了","alert")
            }else {
-               alert("系统出错")
+               mess("系统出错","alert")
            }
+        }
+    }
+
+    ajax_Citybang()
+    function ajax_Citybang() {
+        $.ajax({
+            "url": "city",
+            "type": "Post",
+            "data": "",
+            "dataType": "JSON",
+            success: x
+        })
+        function x(data) {
+                for (var i=0;i<data.length;i++){
+                    $s=$("<div style='cursor: default;' class='zuonei'> <h2><strong>"+data[i].city+"</strong></h2></div>")
+                    $("#zuo").append($s)
+                }
+            for (var i=0;i<data.length;i++){
+                $z=$("<div style='cursor: default;' class='zuonei'> <h2><strong>"+data[i].city+"</strong></h2></div>")
+                $("#you").append($z)
+            }
         }
     }
 
@@ -264,8 +362,33 @@ $(function () {
         }).fail(function(res) {});
         function a(data) {
             if (data=="true"){
-                alert("注册成功")
+                mess("注册成功","alert")
             }
+        }
+    }
+
+    function ajax_updateuserinfo() {
+        $.ajax({
+            "url": "us?type=updateuserinfo",
+            "type": "Post",
+            "data": {
+                userid:userid,
+                userage:$("#ag1").val(),
+                usersex:$("#se1").val(),
+                userphone:$("#ph1").val(),
+                usercardid:$("#card1").val(),
+                useraddress:$("#ad1").val(),
+                email:$("#em1").val()
+            },
+            "dataType": "text",
+            success:a
+        })
+        function a(data) {
+                 if (data=="true"){
+                     mess("修改成功","alert")
+                 }else {
+                     mess("修改失败","alert")
+                 }
         }
     }
 
@@ -287,6 +410,38 @@ $(function () {
         }
     }
 
+    $(".aa").click(function () {
+        if (userid!=0&&userid!=null) {
+            switch ($(this).text()) {
+                case "目的地":
+                    $("html,body").animate({
+                        scrollTop: $("#service").offset().top
+                    }, 600)
+                    break;
+                case "机票":
+                    $("html,body").animate({
+                        scrollTop: $("#events").offset().top
+                    }, 600)
+                    break;
+                case "旅游百货":
+                    $("html,body").animate({
+                        scrollTop: $("#gallery").offset().top
+                    }, 600)
+                    break;
+                case "我的订单":
+                    $("html,body").animate({
+                        scrollTop: $("#contact").offset().top
+                    }, 600)
+                    break;
+                default:
+                    mess("系统出错", "alert")
+                    break;
+            }
+        }else {
+            mess("登录后方可使用","alert")
+        }
+    })
+
     function ajax_denglu() {
          $.ajax({
              "url": "us?type=Log",
@@ -298,9 +453,10 @@ $(function () {
              "dataType": "text",
              success: function (data) {
                  if (data!="0"){
-                     alert("登陆成功")
+                     mess("登陆成功","alert")
                      userid=data
                      username=$("#name").val()
+                     $("html,body").css("overflow","visible")
                      ajax_userka()
                      $(".f").hide(200)
                      $("#Login").hide()
@@ -309,7 +465,7 @@ $(function () {
                          scrollTop:"950px"
                      },600)}
                  else {
-                     alert("登录失败")
+                     mess("登录失败","alert")
                  }
              }
          })
@@ -328,25 +484,24 @@ $(function () {
         })
         function list2(data){
              if(data=="true"){
-                 alert("购买成功")
+                 mess("购买成功","alert")
              }else {
-                 alert("失败")
+                 mess("系统出错","alert")
              }
         }
     }
 
-    $(document).on("click",".i",function () {
-        if (confirm("是否购买航班"+$(this).find("td:first").text()+"的机票")){
-            if(userid!=null){
-                var airid=$(this).find("td:first").text()
-                ajax_buy(airid)
-            }
-            else {
-                alert("请先登录")
-            }
-        }else {
-
+    function isbuy() {
+        if(userid!=null && userid!=0){
+            ajax_buy(airid)
         }
+        else {
+            mess("请先登录","alert")
+        }
+    }
+    $(document).on("click",".i",function () {
+        airid=$(this).find("td:first").text()
+        mess("是否购买航班"+$(this).find("td:first").text()+"的机票","con")
     })
 
     function ajax_selectbytime(nowday) {
@@ -354,7 +509,9 @@ $(function () {
             "url": "fly?type=selbytime",
             "type": "Post",
             "data": {
-                nowday:nowday
+                nowday:nowday,
+                start: $("#go").text(),
+                end: $("#end").text()
             },
             "dataType": "JSON",
             success: list2
@@ -362,7 +519,7 @@ $(function () {
         function list2(data){
             clearflyinfo()
             for(var i=0;i<data.length;i++){
-                var $s=$("<tr class='i' style='height: 40px;font-size: 30px'><td width='300px'>"+data[i].airid+"</td><td width='250px'>"+data[i].stime+"</td><td width='300px'>"+data[i].etime+"</td><td width='300px'>"+data[i].price+"</td></tr>");
+                var $s=$("<tr class='i' style='cursor: default;;height: 40px;font-size: 30px'><td width='300px'>"+data[i].airid+"</td><td width='250px'>"+data[i].stime+"</td><td width='300px'>"+data[i].etime+"</td><td width='300px'>"+data[i].price+"</td></tr>");
                 $("#a").append($s)
             }
         }
@@ -408,7 +565,7 @@ $(function () {
         function list2(data){
             clearflyinfo()
             for(var i=0;i<data.length;i++){
-                var $s=$("<tr class='i' style='height: 30px;font-size: 30px'><td>"+data[i].airid+"</td><td>"+data[i].stime+"</td><td>"+data[i].etime+"</td><td>"+data[i].price+"</td></tr>");
+                var $s=$("<tr class='i' style='cursor: default;height: 30px;font-size: 30px'><td>"+data[i].airid+"</td><td>"+data[i].stime+"</td><td>"+data[i].etime+"</td><td>"+data[i].price+"</td></tr>");
                 $("#flyinfo").append($s)
             }
         }
@@ -428,7 +585,7 @@ $(function () {
         function list2(data){
             clearflyinfo()
             for(var i=0;i<data.length;i++){
-                var $s=$("<tr class='i' style='height: 30px;font-size: 30px'><td width='300px'>"+data[i].airid+"</td><td width='250px'>"+data[i].stime+"</td><td width='300px'>"+data[i].etime+"</td><td width='300px'>"+data[i].price+"</td></tr>");
+                var $s=$("<tr class='i' style='cursor: default;;height: 30px;font-size: 30px'><td width='300px'>"+data[i].airid+"</td><td width='250px'>"+data[i].stime+"</td><td width='300px'>"+data[i].etime+"</td><td width='300px'>"+data[i].price+"</td></tr>");
                 $("#a").append($s)
             }
         }
@@ -447,13 +604,16 @@ $(function () {
         })
         function li(data) {
             if (data=="true"){
-                alert("修改成功")
-                $("#My").fadeOut(250)
-                $("#My").text($("#sname").val());
-                $("#My").fadeIn(250)
-                $(".f").hide(500)
+                mess("修改成功","alert")
+                ajax_userka()
+                $("#My").fadeOut(300,function () {
+                    $("#My").text($("#sname").val());
+                    $("#My").fadeIn(300)
+                    $(".f").hide(500)
+                })
+
             }else {
-                alert("系统出错")
+                mess("系统出错","alert")
             }
         }
     }
@@ -464,15 +624,21 @@ $(function () {
             $("#zhuce").val("保存")
         }
         else if ($("#zhuce").val()=="保存"){
-            if ($("#repass").val()==($("#pass").val())){
-                ajax_zhuce()
-                $("#zhuce").val("注册")
-                $(".none").hide(100)
+            if($("#name").val()!=""&&$("#pass").val()!=""&&$("#repass")!=""&&$("#photo")!="") {
+                if ($("#repass").val() == ($("#pass").val())) {
+                    if ($("#photo").val()!="") {
+                        ajax_zhuce()
+                        $("#zhuce").val("注册")
+                        $(".none").hide(100)
+                    }else {
+                        mess("请选择头像","alert")
+                    }
+                } else {
+                    mess("请再次确认密码","alert")
+                }
             }else {
-                alert("请再次确认密码")
+                mess("请输入用户名和密码并选择图片","alert")
             }
-
-
         }
     })
 
@@ -480,14 +646,27 @@ $(function () {
         $(".slideanim").each(function(){
             var pos = $(this).offset().top;
             var winTop = $(window).scrollTop();
-            if (pos < winTop + 600) {
+            if (pos < winTop + 800) {
                 $(this).addClass("slide");
             }
         });
     });
 
+    function check() {
+        if ($("#name").val()!="" &&($("#pass")).val()!=""){
+            ajax_denglu()
+        }else {
+            mess("登录信息不能为空","alert")
+        }
+    }
+
     $("#denglu").click(function () {
-        ajax_denglu()
+        if ($("#zhuce").val()=="注册") {
+            check()
+        }else {
+            $(".none").hide(100)
+            $("#zhuce").val("注册")
+        }
     })
 
     $("#Login").click(function () {
@@ -503,7 +682,7 @@ $(function () {
         $(".deng").addClass("slide")
     })
 
-    $(".btn,.zuonei").hover(function () {
+    $(".btn").hover(function () {
         color=$(this).css("border-top-color")
         $(this).css("background-color",color).css("color","wheat");
     },function () {
@@ -511,12 +690,12 @@ $(function () {
         $(this).css("background-color","transparent").css("color",color)
     })
     
-    $(".zuonei").hover(function () {
+   /* $(".zuonei").hover(function () {
          color=$(this).css("border-top-color")
          $(this).css("background-color",color).css("color","wheat");
     },function () {
         $(this).css("color","black")
-    })
+    })*/
 
     $("#last-week").hover(function () {
         $(this).css("color","red")
@@ -558,10 +737,10 @@ $(function () {
         }
     })
 
-    $(".zuonei").click(function () {
+    $(document).on("click",".zuonei",function (){
         str=$(this).text().trim()
         /*alert($(this).text().trim())
-        alert($(this).parent().attr("id"))*/
+         alert($(this).parent().attr("id"))*/
         if($(this).parent().attr("id")=="zuo"){
             $("#one").val(str)
             document.getElementById("go").innerHTML=str
@@ -601,9 +780,26 @@ $(function () {
     $("#three").click(function () {
         if ($("#three").css("opacity")==1) {
             ajax_selectFlyinfobytimeandcity()
+            ajax_selcitymei()
             $("html,body").animate({
                 scrollTop: "1800px"
             }, 600)
+            $("#three").animate({
+                opacity:'0'
+            },100)
+            $("#one").val("出发地")
+            $("#two").val("目的地")
+            setTimeout(function () {
+                $("#one").animate({
+                    opacity:'1'
+                },100)
+                $("#two").animate({
+                    opacity:'1'
+                },100)
+                $(".mei").css("background","url('city/"+cityid+"_mei.jpg') no-repeat").css("background-position","center").css("background-size","100% 100%")
+                $(".jian").css("background","url('city/"+cityid+"_jian.jpg') no-repeat").css("background-position","center").css("background-size","100% 100%")
+                $(".te").css("background","url('city/"+cityid+"_te.jpg') no-repeat").css("background-position","center").css("background-size","100% 100%")
+            },700)
         }
     })
 
@@ -632,35 +828,44 @@ $(function () {
        ajax_selectbytime(nowday)
     })
 
+    function exit() {
+        userid=0
+        username=""
+        $(".img").attr("src","")
+        $("#name1").text("无人登录")
+        $("html,body").css("overflow","hidden")
+        $("html,body").animate({
+            scrollTop: $("#myCarousel").offset().top
+        }, 600)
+        $("#exit").animate({
+            "opacity": 0
+        }, 500, function () {
+            setTimeout(function () {
+                $("#info").animate({
+                    "opacity": 0
+                }, 500)
+            }, 200)
+            setTimeout(function () {
+                $("#user").animate({
+                    "opacity": 0
+                }, 500)
+            }, 900)
+            setTimeout(function () {
+                $("#My").animate({
+                    "opacity": 0
+                }, 500,function () {
+                    setTimeout(function () {
+                        $("#My").text("")
+                    },500)
+                })
+                $("#Login").show(250)
+            }, 1600)
+            $(".f").fadeOut(500)
+        })
+    }
     $("#exit").click(function () {
         if ($("#My").css("opacity")==1&&$("#exit").css("opacity")==1) {
-            if (confirm("您确定要退出吗")) {
-                userid=0
-                username=""
-                $("#exit").animate({
-                    "opacity": 0
-                }, 500, function () {
-                    setTimeout(function () {
-                        $("#info").animate({
-                            "opacity": 0
-                        }, 500)
-                    }, 200)
-                    setTimeout(function () {
-                        $("#user").animate({
-                            "opacity": 0
-                        }, 500)
-                    }, 900)
-                    setTimeout(function () {
-                        $("#My").animate({
-                            "opacity": 0
-                        }, 500)
-                        $("#Login").show(250)
-                    }, 1600)
-                    $(".f").fadeOut(500)
-                })
-            } else {
-
-            }
+            mess("您确定要退出吗","con")
         }
     })
 
@@ -692,7 +897,7 @@ $(function () {
     })
 
 
-     function ajax_userinfo() {
+     function ajax_userinfo(s) {
         $.ajax({
             "url": "us?type=selinfobyid",
             "type": "Post",
@@ -705,17 +910,34 @@ $(function () {
          function mm(data) {
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].username==null){
-                        alert("资料为空")
+                        mess("资料为空","alert")
                         return false
                     }else {
-                        $("#na").text(data[i].username)
-                        $("#ag").text(data[i].userage)
-                        $("#se").text(data[i].usersex)
-                        $("#ph").text(data[i].userphone)
-                        $("#card").text(data[i].usercardid)
-                        $("#ad").text(data[i].useraddress)
-                        $("#em").text(data[i].email)
-                        userimg()
+                        if (s=="sel") {
+                            $("#na").text(data[i].username)
+                            $("#ag").text(data[i].userage)
+                            $("#se").text(data[i].usersex)
+                            $("#ph").text(data[i].userphone)
+                            $("#card").text(data[i].usercardid)
+                            $("#ad").text(data[i].useraddress)
+                            $("#em").text(data[i].email)
+                            userimg()
+                        }else if(s=="upd"){
+                            $("#ag1").val(data[i].userage)
+                            $("#se1").val(data[i].usersex)
+                            $("#ph1").val(data[i].userphone)
+                            $("#card1").val(data[i].usercardid)
+                            $("#ad1").val(data[i].useraddress)
+                            $("#em1").val(data[i].email)
+                        }else if (s=="sell"){
+                            $("#na").text(data[i].username)
+                            $("#ag").text(data[i].userage)
+                            $("#se").text(data[i].usersex)
+                            $("#ph").text(data[i].userphone)
+                            $("#card").text(data[i].usercardid)
+                            $("#ad").text(data[i].useraddress)
+                            $("#em").text(data[i].email)
+                        }
                     }
                 }
         }
@@ -737,6 +959,10 @@ $(function () {
                 }, 500)
             })
         } else {
+            $(".userinfotxt").fadeOut(300, function () {
+                $("#Myinfoshow").find("label:gt(0)").fadeIn(300)
+                $(".updatebtn").val("编辑资料")
+            })
             $("#caidan").animate({
                 "opacity": 1
             }, 500)
@@ -754,7 +980,7 @@ $(function () {
     }
     $("#userimg").click(function () {
         if ($("#userimg").css("opacity")== 1) {
-            ajax_userinfo()
+            ajax_userinfo("sel")
         }
     })
 
@@ -770,7 +996,7 @@ $(function () {
         ajax_adduserinfo()
     })
 
-    function ajax_selcai() {
+    function ajax_selcai(s) {
             $.ajax({
             "url": "fly?type=selcai",
             "type": "Post",
@@ -781,21 +1007,29 @@ $(function () {
                 success:a
         })
         function a(data) {
-                if (data==0){
-                    alert("您暂时没有下订单")
-                    return false
-                }else {
-                    for (var i = 0; i < data.length; i++) {
-                        caidan()
+            clearcai();//////清空所有数据
+            if (data==""){
+                mess("您暂时没有下订单", "alert")
+                back()
+            }else {
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].airid == null) {
+                        mess("您暂时没有下订单", "alert")
+                        return false
+                    } else {
+                        if (s=="sel") {
+                            caidan();
+                        }
                         var $s = $("<div style='margin-top: " + (i * 80) + "px' class='airinfo'><label>" + data[i].airid + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><label>" + data[i].scity + "&nbsp;&nbsp;-->&nbsp;&nbsp;</label><label>" + data[i].ecity + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><label>" + data[i].stime + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input style='float: right' class='del' id='" + data[i].ding + "' type='button' value='取消'></div>")
-                        $("#filghtinfo").append($s)
+                        $("#filghtinfo").append($s);
                     }
                 }
             }
         }
+        }
     $("#air").click(function () {
         if ($("#caidan").css("opacity")== 1) {
-            ajax_selcai()
+            ajax_selcai("sel")
         }
     })
     function caidan() {
@@ -803,7 +1037,7 @@ $(function () {
                 "width": "900px"
             }, 500)
             $("#caidan").animate({
-                "opacity": 0,
+                "opacity": "0",
                 "marginLeft": "0px"
             }, 300)
             $("#userimg").animate({
@@ -835,36 +1069,321 @@ $(function () {
             success:a
         })
         function a(data) {
-            if (data!=0){
-                alert("删除成功")
+            if (data!="0"){
+                mess("删除成功","alert")
                 /*$("#"+id).parent().remove()*/
                 clearcai()
-                ajax_selcai()
+                ajax_selcai("sel")
             }else {
-                alert("删除失败")
+                mess("删除失败","alert")
             }
         }
     }
     $(document).on("click",".del",function (){
-           ajax_delFlyinfo($(this).attr("id"))
+        buyid=$(this).attr("id")
+        mess("是否取消航班","con")
     })
 
     $("#back").click(function () {
-        $(".myding,.up").animate({
-            "width": "700px"
-        }, 500)
-        $("#caidan").animate({
-            "opacity": 1,
-            "marginLeft": "20px"
-        }, 300)
-        $("#userimg").animate({
-            "opacity": 1,
-            "marginLeft": "380px"
-        }, 300)
-        $("#back").attr("value","")
-        $("#back").animate({
-            "width":"0px"
-        },500)
-        $("#filghtinfo").hide()
+        back()
     })
+function back() {
+    $(".myding,.up").animate({
+        "width": "700px"
+    }, 500)
+    $("#caidan").animate({
+        "opacity": 1,
+        "marginLeft": "20px"
+    }, 300)
+    $("#userimg").animate({
+        "opacity": 1,
+        "marginLeft": "380px"
+    }, 300)
+    $("#back").attr("value","")
+    $("#back").animate({
+        "width":"0px"
+    },500)
+    $("#filghtinfo").hide()
+}
+
+    $(".updatebtn").click(function () {
+        if ($(this).val() == "编辑资料") {
+            ajax_userinfo("upd")
+            $("#Myinfoshow").find("label:gt(0)").fadeOut(300, function () {
+                $(".userinfotxt").fadeIn(300)
+                $(".updatebtn").val("确定修改")
+            })
+        } else {
+           ajax_updateuserinfo()
+            $(".userinfotxt").fadeOut(300, function () {
+                $("#Myinfoshow").find("label:gt(0)").fadeIn(300)
+                $(".updatebtn").val("编辑资料")
+            })
+            ajax_userinfo("sell")
+        }
+    })
+
+    $(".mei").hover(function () {
+        if ($(this).css("height")=="360px"||$(this).css("height")=="370px") {
+            $(".mei").animate({
+                "marginTop": "115px",
+                "height": "370px",
+                "marginLeft": "95px",
+                "width": "270px"
+            }, 200)
+            $("#nei_mei").animate({
+                "opacity": "1",
+                "marginTop": "270px"
+            }, 200)
+        }
+    },function () {
+        if ($(this).css("height")=="360px"||$(this).css("height")=="370px") {
+            $("#nei_mei").animate({
+                "opacity": "0",
+                "marginTop": "360px"
+            }, 200)
+            $(".mei").animate({
+                "marginTop": "120px",
+                "height": "360px",
+                "marginLeft": "100px",
+                "width": "260px"
+            }, 200)
+        }
+    })
+    $(".jian").hover(function () {
+        if ($(this).css("height")=="360px"||$(this).css("height")=="370px") {
+            $(".jian").animate({
+                "marginTop": "115px",
+                "height": "370px",
+                "marginLeft": "455px",
+                "width": "270px"
+            }, 200)
+            $("#nei_jian").animate({
+                "opacity": "1",
+                "marginTop": "270px"
+            }, 200)
+        }
+    },function () {
+        if ($(this).css("height")=="360px"||$(this).css("height")=="370px") {
+            $("#nei_jian").animate({
+                "opacity": "0",
+                "marginTop": "360px"
+            }, 200)
+            $(".jian").animate({
+                "marginTop": "120px",
+                "height": "360px",
+                "marginLeft": "460px",
+                "width": "260px"
+            }, 200)
+        }
+    })
+    $(".te").hover(function () {
+        if ($(this).css("height")=="360px"||$(this).css("height")=="370px") {
+            $(".te").animate({
+                "marginTop": "115px",
+                "height": "370px",
+                "marginLeft": "815px",
+                "width": "270px"
+            }, 200)
+            $("#nei_te").animate({
+                "opacity": "1",
+                "marginTop": "270px"
+            }, 200)
+        }
+    },function () {
+        if ($(this).css("height")=="360px"||$(this).css("height")=="370px") {
+            $("#nei_te").animate({
+                "opacity": "0",
+                "marginTop": "360px"
+            }, 200)
+            $(".te").animate({
+                "marginTop": "120px",
+                "height": "360px",
+                "marginLeft": "820px",
+                "width": "260px"
+            }, 200)
+        }
+    })
+
+    $(".city").click(function () {
+        if (cityid!=0) {
+            if ($(this).css("height")=="360px"||$(this).css("height")=="370px") {
+                cityclick($(this))
+                var str = $(this).find("label").text()
+                setTimeout(function () {
+                    switch (str) {
+                        case "美食":
+                            meishi()
+                            setTimeout(function () {
+                                ajax_selmeiwen()
+                                $(".meishiimg").attr("src", "city/" + cityid + "_mei1.jpg")
+                            }, 500)
+                            break;
+                        case "建筑":
+                            meishi()
+                            setTimeout(function () {
+                                ajax_seljianwen()
+                                $(".meishiimg").attr("src", "city/" + cityid + "_jian1.jpg")
+                            }, 500)
+                            break;
+                        case "特色":
+                            $("#video").css("z-index","120")
+                            $("#video").animate({
+                                "opacity":"1"
+                            },300,function () {
+                                $("#video").find("video").remove()
+                                $("#video").append($("<video style='width: 700px;height:400px' autoplay='autoplay' controls='controls'><source src='city/"+cityid+".mp4' type='video/mp4'></video>"))
+                            })
+                            break;
+                        default:
+                            mess("系统错误", "alert")
+                            break
+                    }
+                }, 500)
+            }else {
+                $("#video").find("video").remove()
+                $(".wenzi").animate({
+                    "opacity":"0"
+                },300)
+                $(".fengsu").find("img").animate({
+                    "opacity":"0"
+                },300)
+                $("#video").animate({
+                    "opacity":"0"
+                },300)
+                setTimeout(function () {
+                    $(".wenzi").css("z-index","-1")
+                    $(".fengsu").find("img").css("z-index","-1")
+                    $("#video").css("z-index","-1")
+                    goback2()
+                },400)
+            }
+        }else {
+            mess("请先选择目的地","alert")
+        }
+    })
+
+    function ajax_seljianwen() {
+        $.ajax({
+            "url":"city",
+            "type":"Post",
+            "data":{
+             type:"seljianwen",
+                cityid:cityid
+            },"dataType":"JSON",
+            success:k
+        })
+        function k(data) {
+            var trs=$("#wz").find("label");
+            for (var j=0;j<trs.length;j++){
+                trs[j].remove()
+            }
+            var tsr=$("#wj").find("h3");
+            for (var j=0;j<trs.length;j++){
+                tsr[j].remove()
+            }
+            for (var i=0;i<data.length;i++){
+                $s=$("<label style='font-size: 45px'>"+data[i].jname+"</label>")
+                $z=$("<h3>"+data[i].jjie+"</h3>")
+                $("#wz").append($s)
+                $("#wj").append($z)
+            }
+        }
+    }
+
+    function goback2() {
+        $(".city").css("z-index","auto")
+        $(".city").animate({
+            "marginTop":"120px",
+            "height":"360px",
+            "width":"260px"
+        })
+        $(".mei").animate({
+            "marginLeft":"100px"
+        })
+        $(".jian").animate({
+            "marginLeft":"460px"
+        })
+        $(".te").animate({
+            "marginLeft":"820px"
+        })
+        $(".nei").animate({
+            "opacity":"0",
+            "marginTop":"360px",
+            "width":"270"
+        },200)
+    }
+
+    function ajax_selmeiwen() {
+        $.ajax({
+            "url":"city",
+            "type":"Post",
+            "data":{
+                type:"selmeiwen",
+                cityid:cityid
+            },"dataType":"JSON",
+            success:p
+        })
+        function p(data) {
+            var trs=$("#wz").find("label");
+            for (var j=0;j<trs.length;j++){
+                trs[j].remove()
+            }
+            var tsr=$("#wj").find("h3");
+            for (var j=0;j<trs.length;j++){
+                tsr[j].remove()
+            }
+            for (var i=0;i<data.length;i++){
+                $s=$("<label style='font-size: 45px'>"+data[i].mname+"</label>")
+                $z=$("<h3>"+data[i].mjie+"</h3>")
+                $("#wz").append($s)
+                $("#wj").append($z)
+            }
+        }
+    }
+
+    function meishi() {
+        $(".wenzi").css("z-index","550")
+        $(".meishiimg").css("z-index","550")
+        $(".wenzi").animate({
+            "opacity":"1"
+        },500)
+        $(".meishiimg").animate({
+            "opacity":"1"
+        },500)
+    }
+    
+    function ajax_selcitymei() {
+        $.ajax({
+            "url":"city?type=selid",
+            "type":"Post",
+            "data":{
+                city:$("#two").val()
+            },"dataType":"text",
+            success:c
+        })
+        function c(data) {
+            if (data!="0"){
+                cityid=data
+            }
+        }
+    }
+    
+    function cityclick(data) {
+        data.css("z-index","10")
+        $(".city").animate({
+            "height":"100px",
+            "width":"260"
+        },200,function () {
+            $(".city").animate({
+                "marginLeft":"450px",
+                "marginTop":"0px"
+            },300)
+        })
+        $(".nei").animate({
+            "opacity":"1",
+            "marginTop":"0px",
+            "width":"260"
+        },200)
+    }
 })

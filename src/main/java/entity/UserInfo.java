@@ -58,7 +58,7 @@ public class UserInfo implements Serializable{
     }
 
     public void setUsersex(String usersex) {
-        this.usersex = usersex;
+            this.usersex = usersex;
     }
 
     public String getUserphone() {
@@ -91,5 +91,19 @@ public class UserInfo implements Serializable{
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "userid=" + userid +
+                ", username='" + username + '\'' +
+                ", userage=" + userage +
+                ", usersex='" + usersex + '\'' +
+                ", userphone='" + userphone + '\'' +
+                ", usercardid='" + usercardid + '\'' +
+                ", useraddress='" + useraddress + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

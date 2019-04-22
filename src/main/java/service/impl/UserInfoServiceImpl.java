@@ -27,8 +27,8 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 
     @Override
-    public int addT(User user) {
-        return userinfodao.addT(user);
+    public int addT(User user,Integer id) {
+        return userinfodao.addT(user,id);
     }
 
     @Override
@@ -67,5 +67,15 @@ public class UserInfoServiceImpl implements UserInfoService {
             u.setUserimage("Div\\"+u.getUserimage());
         }
         return list;
+    }
+
+    @Override
+    public int del(Integer id) {
+        return userinfodao.del(id);
+    }
+
+    @Override
+    public int deluser(Integer id) {
+        return userinfodao.deluser(id);
     }
 }

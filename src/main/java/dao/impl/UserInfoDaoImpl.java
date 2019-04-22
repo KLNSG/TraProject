@@ -24,12 +24,13 @@ public class UserInfoDaoImpl extends BaseDao implements UserInfoDao {
         }
         try {
             pstat = con.prepareStatement(sql);
-            if (id!=null&id!=0){
+            if (id!=null&&id!=0){
                 pstat.setInt(1,id);
             }
             rs=pstat.executeQuery();
             while (rs.next()){
                 User u=new User();
+                u.setUserid(rs.getInt("userid"));
                 u.setUsername(rs.getString("username"));
                 u.setUserimage(rs.getString("userimage"));
                 list.add(u);
@@ -69,9 +70,16 @@ public class UserInfoDaoImpl extends BaseDao implements UserInfoDao {
     }
 
     @Override
-    public int addT(User user) {
-        String sql="insert into user(userid,username,userpwd,userimage)values(null,?,?,?)";
-        Object[] pram={user.getUsername(),user.getUserpwd(),user.getUserimage()};
+    public int addT(User user,Integer id) {
+        String sql="";
+        Object[] pram;
+        if (id==null) {
+            sql = "insert into user(userid,username,userpwd,userimage)values(null,?,?,?)";
+            pram =new Object[] {user.getUsername(), user.getUserpwd(), user.getUserimage()};
+        }else {
+            sql = "insert into user(userid,username,userpwd,userimage)values(?,?,?,?)";
+            pram = new Object[] {id,user.getUsername(), user.getUserpwd(), user.getUserimage()};
+        }
         return ExecuteUpdate(sql,pram);
     }
 
@@ -121,9 +129,23 @@ public class UserInfoDaoImpl extends BaseDao implements UserInfoDao {
 
     @Override
     public int update(UserInfo userinfo) {
-        String sql="update userinfo set username=?,userage=?,usersex=?,userphone=?,usercardid=?,useraddress=?,email=?";
-        Object[] objects={userinfo.getUsername()};
+        String sql="update userinfo set useage=?,usersex=?,userphone=?,usercardid=?,useraddress=?,email=? where userid=?";
+        Object[] objects={userinfo.getUserage(),userinfo.getUsersex(),userinfo.getUserphone(),userinfo.getUsercardid(),userinfo.getUseraddress(),userinfo.getEmail(),userinfo.getUserid()};
         return ExecuteUpdate(sql,objects);
+    }
+
+    @Override
+    public int del(Integer id) {
+        String sql="delete from userinfo where userid=?";
+        Object[] pram={id};
+        return ExecuteUpdate(sql,pram);
+    }
+
+    @Override
+    public int deluser(Integer id) {
+        String sql="delete from user where userid=?";
+        Object[] pram={id};
+        return ExecuteUpdate(sql,pram);
     }
 
 
